@@ -4,16 +4,18 @@ from pygame.locals import *
 import time
 import random
 import logic
+import buttons
 
 class PygameOutput(pygame.sprite.Sprite):
 
-    def __init__(self, quiz, width = 800, height = 480):
+    def __init__(self, quiz, buttons, width = 800, height = 480):
         pygame.init()
         self.width = width
         self.height = height
         # Remove third argument to test on non-touchscreen display
         self.screen = pygame.display.set_mode((self.width, self.height), pygame.FULLSCREEN)
         self.quiz = quiz
+        self.BUTTONS = buttons
         pygame.mouse.set_visible(False)
         
     def Main(self):
@@ -32,10 +34,60 @@ class PygameOutput(pygame.sprite.Sprite):
             quizImage.rect.topleft = [0, 0]
             self.screen.blit(quizImage.image, quizImage.rect)
             
+            buttonPressed = buttons.CheckInputs(self.BUTTONS)
+            if(buttonPressed==self.BUTTONS[0]):
+                self.quiz.questions[index].answer = "a"
+                answered = True
+            elif(buttonPressed==self.BUTTONS[1]):
+                self.quiz.questions[index].answer = "b"
+                answered = True
+            elif(buttonPressed==self.BUTTONS[2]):
+                self.quiz.questions[index].answer = "c"
+                answered = True
+            elif(buttonPressed==self.BUTTONS[3]):
+                self.quiz.questions[index].answer = "d"
+                answered = True
+
+
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     pygame.quit()
                     sys.exit()
+                
+                if event.type == KEYDOWN:
+                    if event.key == K_q and pygame.key.get_mods() and KMOD_CTRL:
+                        pygame.quit()
+                        sys.exit()
+                    elif event.key == K_RIGHT:
+                        correctFont = pygame.font.Font(None, 1000)
+                        result = correctFont.render("L", 1, (255, 0, 0))
+                        textpos = result.get_rect(centerx=self.width/2, centery=self.height/2)
+                        self.screen.blit(result, textpos)
+                    elif event.key == K_a:
+                        self.quiz.questions[index].answer = "a"
+                        answered = True
+                    elif event.key == K_b:
+                        self.quiz.questions[index].answer = "b"
+                        answered = True
+                    elif event.key == K_c:
+                        self.quiz.questions[index].answer = "c"
+                        answered = True
+                    elif event.key == K_d:
+                        self.quiz.questions[index].answer = "d"
+                        answered = True
+                    elif event.key == K_RETURN and answered==True and finished==False:
+                        self.quiz.questions[index].duration = time.time() - startTime
+                        if self.quiz.questions[index].checkAnswer():
+                            self.quiz.questions_score = self.quiz.questions_score + 1
+	
+                        if(index==len(self.quiz.questions)-1):
+                            finished = True
+                        else:
+                            answered = False;
+                            index += 1
+                            startTime = time.time()
+                            colours = self.RandomiseColours(5)
+                
             if pygame.font:
                 if(finished==True):
                     self.DisplayText("Your score is: " + str(self.quiz.questions_score),60, (255,0,0), x=self.width/2, y=self.height/4)
@@ -49,39 +101,6 @@ class PygameOutput(pygame.sprite.Sprite):
                     else:
                         self.DisplayText("Incorrect, The Corect Answer Was " + self.quiz.questions[index].printCorrectAnswer(), 30, (255,0,0), x=self.width/2, y=self.height/2)
 
-            if event.type == KEYDOWN:
-                if event.key == K_q and pygame.key.get_mods() and KMOD_CTRL:
-                    pygame.quit()
-                    sys.exit()
-                elif event.key == K_RIGHT:
-                    correctFont = pygame.font.Font(None, 1000)
-                    result = correctFont.render("L", 1, (255, 0, 0))
-                    textpos = result.get_rect(centerx=self.width/2, centery=self.height/2)
-                    self.screen.blit(result, textpos)
-                elif event.key == K_a:
-                    self.quiz.questions[index].answer = "a"
-                    answered = True
-                elif event.key == K_b:
-                    self.quiz.questions[index].answer = "b"
-                    answered = True
-                elif event.key == K_c:
-                    self.quiz.questions[index].answer = "c"
-                    answered = True
-                elif event.key == K_d:
-                    self.quiz.questions[index].answer = "d"
-                    answered = True
-                elif event.key == K_RETURN and answered==True and finished==False:
-                    self.quiz.questions[index].duration = time.time() - startTime
-                    if self.quiz.questions[index].checkAnswer():
-                            self.quiz.questions_score = self.quiz.questions_score + 1
-
-                    if(index==len(self.quiz.questions)-1):
-                        finished = True
-                    else:
-                        answered = False;
-                        index += 1
-                        startTime = time.time()
-                        colours = self.RandomiseColours(5)
                     
             pygame.display.update()
 
