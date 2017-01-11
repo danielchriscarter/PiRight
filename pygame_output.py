@@ -97,9 +97,10 @@ class PygameOutput(pygame.sprite.Sprite):
                     self.DisplayQuestion(index, colours)
                 else:
                     if self.quiz.questions[index].checkAnswer():
-                        self.DisplayText("Correct!", 60, (255,0,0), x=self.width/2, y=self.height/2)
+                        self.DisplayText("Correct!", 60, (0,255,0), x=self.width/2, y=self.height/2)
                     else:
-                        self.DisplayText("Incorrect, The Corect Answer Was " + self.quiz.questions[index].printCorrectAnswer(), 30, (255,0,0), x=self.width/2, y=self.height/2)
+                        self.DisplayText("Incorrect", 50, (255,0,0), x=self.width/2, y=self.height/2)
+                        self.DisplayText("The Correct Answer Was " + self.quiz.questions[index].printCorrectAnswer(),  30, (255,0,0), x=self.width/2, y=self.height/2+30)
 
                     
             pygame.display.update()
@@ -111,11 +112,11 @@ class PygameOutput(pygame.sprite.Sprite):
         self.screen.blit(text, textpos)
 
     def DisplayQuestion(self,index, colours):
-        self.DisplayText(self.quiz.questions[index].text,36, colours[0] ,x=self.width/2, y= 50)
-        self.DisplayText("A: " + self.quiz.questions[index].choices['a'], 20, colours[1],x=self.width/2, y=150)
-        self.DisplayText("B: " + self.quiz.questions[index].choices['b'], 20, colours[2],x=self.width/2, y=250)
-        self.DisplayText("C: " + self.quiz.questions[index].choices['c'], 20, colours[3],x=self.width/2, y=350)
-        self.DisplayText("D: " + self.quiz.questions[index].choices['d'], 20, colours[4],x=self.width/2, y=450)
+        self.DisplayText(self.quiz.questions[index].text,50, colours[0] ,x=self.width/2, y= 50)
+        self.DisplayText("A: " + self.quiz.questions[index].choices['a'], 35, (255,255,0),x=self.width/3, y=300)
+        self.DisplayText("B: " + self.quiz.questions[index].choices['b'], 35, (0,255,0),x=2*self.width/3, y=300)
+        self.DisplayText("C: " + self.quiz.questions[index].choices['c'], 35, (255,0,0),x=self.width/3, y=400)
+        self.DisplayText("D: " + self.quiz.questions[index].choices['d'], 35, (0,0,255),x=2*self.width/3, y=400)
 
     def RandomiseColours(self, number):
         colours = []
@@ -129,4 +130,8 @@ class PygameOutput(pygame.sprite.Sprite):
                 c = random.randint(0,255)
             colours.append((a, b, c))
         return colours
+
+
+        
+        
         
