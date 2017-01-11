@@ -1,6 +1,6 @@
-# PyRight
+# PiRight
 
-PyRight is a project to build a Raspberry-Pi based game to assist those with Attention-Defecit Disorders
+PiRight is a project to build a Raspberry-Pi based game to assist those with Attention-Defecit Disorders
 
 It is intended as an entry to the [PA Pi Competition](http://www.paconsulting.com/events/raspberry-pi-competition), as well as a learning experience with the use of Pygame for a GUI
 
