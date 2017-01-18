@@ -4,7 +4,6 @@ from pygame.locals import *
 import time
 import random
 import logic
-import buttons
 
 class PygameOutput(pygame.sprite.Sprite):
 
@@ -13,7 +12,7 @@ class PygameOutput(pygame.sprite.Sprite):
         self.width = width
         self.height = height
         # Remove third argument to test on non-touchscreen display
-        self.screen = pygame.display.set_mode((self.width, self.height), pygame.FULLSCREEN)
+        self.screen = pygame.display.set_mode((self.width, self.height))#, pygame.FULLSCREEN)
         self.quiz = quiz
         self.BUTTONS = buttons
         pygame.mouse.set_visible(False)
@@ -33,8 +32,10 @@ class PygameOutput(pygame.sprite.Sprite):
             quizImage.rect = quizImage.image.get_rect()
             quizImage.rect.topleft = [0, 0]
             self.screen.blit(quizImage.image, quizImage.rect)
-            
-            buttonPressed = buttons.CheckInputs(self.BUTTONS)
+            button_string = ""
+            for button in self.BUTTONS:
+                button_string += (str(button) + " ")
+            buttonPressed = os.system("gksudo ./run_buttons.sh " + button_string)
             if(buttonPressed==self.BUTTONS[0]):
                 self.quiz.questions[index].answer = "a"
                 answered = True

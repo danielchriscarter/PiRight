@@ -1,20 +1,13 @@
 import RPi.GPIO as GPIO
+import sys
 GPIO.setmode(GPIO.BCM)
-import time
 
-def CheckInputs(pins):
-    for pin in pins:
-        GPIO.setup(pin, GPIO.IN)
-        if(GPIO.input(pin)==1):
-            return pin
-    return 0
+del sys.argv[0]
 
-def WaitForInput(pins):
-    for pin in pins:
-        GPIO.setup(pin, GPIO.IN)
-    while(True):
-        for pin in pins:
-            if(GPIO.input(pin)==1):
-                return pin
-        time.sleep(0.1)
-
+#def CheckInputs(pins):
+for pin_str in sys.argv:#pins:
+    pin = int(pin_str)
+    GPIO.setup(pin, GPIO.IN)
+    if(GPIO.input(pin)==1):
+        print(pin)#return pin
+#    return 0

@@ -8,13 +8,17 @@ class TeacherMode(pygame.sprite.Sprite):
         pygame.init()
         self.width = width
         self.height = height
+#        self.font = pygame.font(None,20)
         # Remove third argument to test on non-touchscreen display
-        self.screen = pygame.display.set_mode((self.width, self.height), pygame.FULLSCREEN)
+        self.screen = pygame.display.set_mode((self.width, self.height))#, pygame.FULLSCREEN)
         pygame.mouse.set_visible(False)
         
     def Main(self):
         while 1:
             self.screen.fill((100, 100, 50))
+
+            self.rect = pygame.draw.rect(self.screen, (255,0,0), (400, 200, 150,75),0)
+ #           self.screen.blit(self.font.render("Import", True, (255,255,255)),(self.widt
 
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
@@ -26,7 +30,8 @@ class TeacherMode(pygame.sprite.Sprite):
                         os.system("gksudo ./import.sh")
                 
             if pygame.font:
-                self.DisplayText("Press enter to import files", 50, (255,0,0), x=400, y=200)
+                self.DisplayText("Import", 30, (255,255,255), x=450, y=225)
+#                self.DisplayText("Press enter to import files", 50, (255,0,0), x=400, y=200)
                     
             pygame.display.update()
 
@@ -38,5 +43,5 @@ class TeacherMode(pygame.sprite.Sprite):
 
 
 #These are present for testing only - REMOVE when adding to final product
-Window = PygameOutput()
+Window = TeacherMode()
 Window.Main()
