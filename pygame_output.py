@@ -22,7 +22,7 @@ class PygameOutput(pygame.sprite.Sprite):
         finished = False
         index = 0
         startTime = time.time() # To declare scope
-        colours = self.RandomiseColours(5)
+        colour = self.RandomiseColour()
 
         while 1:
             self.screen.fill((100, 100, 50))
@@ -35,7 +35,7 @@ class PygameOutput(pygame.sprite.Sprite):
             button_string = ""
             for button in self.BUTTONS:
                 button_string += (str(button) + " ")
-            buttonPressed = os.system("gksudo ./run_buttons.sh " + button_string)
+            buttonPressed = [0,0,0,0,0]#os.system("gksudo ./scripts/run_buttons.sh " + button_string)
             if(buttonPressed==self.BUTTONS[0]):
                 self.quiz.questions[index].answer = "a"
                 answered = True
@@ -87,15 +87,20 @@ class PygameOutput(pygame.sprite.Sprite):
                             answered = False;
                             index += 1
                             startTime = time.time()
-                            colours = self.RandomiseColours(5)
+                            colour = self.RandomiseColour()
                 
             if pygame.font:
                 if(finished==True):
+                    timeTaken = round(self.quiz.totalTime(),2)
                     self.DisplayText("Your score is: " + str(self.quiz.questions_score),60, (255,0,0), x=self.width/2, y=self.height/4)
-                    self.DisplayText("Total Time: " + "%.2f" % self.quiz.totalTime() + "s", 60, (255,0,0), x=self.width/2, y=3*self.height/4)
+                    self.DisplayText("Total Time: " + str(timeTaken) + "s", 60, (255,0,0), x=self.width/2, y=3*self.height/4)
+                    if(answered==True):
+                        # Need to add name gathering mechanism here!
+                        self.SaveScore("Joe Bloggs", self.quiz.questions_score, timeTaken)
+                        answered = False
 
                 elif(answered==False):
-                    self.DisplayQuestion(index, colours)
+                    self.DisplayQuestion(index, colour)
                 else:
                     if self.quiz.questions[index].checkAnswer():
                         self.DisplayText("Correct!", 60, (0,255,0), x=self.width/2, y=self.height/2)
@@ -112,27 +117,24 @@ class PygameOutput(pygame.sprite.Sprite):
         textpos = text.get_rect(centerx=x, centery=y)
         self.screen.blit(text, textpos)
 
-    def DisplayQuestion(self,index, colours):
-        self.DisplayText(self.quiz.questions[index].text,50, colours[0] ,x=self.width/2, y= 50)
+    def DisplayQuestion(self,index, colour):
+        self.DisplayText(self.quiz.questions[index].text,50, colour ,x=self.width/2, y= 50)
         self.DisplayText("A: " + self.quiz.questions[index].choices['a'], 35, (255,255,0),x=self.width/3, y=300)
         self.DisplayText("B: " + self.quiz.questions[index].choices['b'], 35, (0,255,0),x=2*self.width/3, y=300)
         self.DisplayText("C: " + self.quiz.questions[index].choices['c'], 35, (255,0,0),x=self.width/3, y=400)
         self.DisplayText("D: " + self.quiz.questions[index].choices['d'], 35, (0,0,255),x=2*self.width/3, y=400)
 
-    def RandomiseColours(self, number):
-        colours = []
-        for i in range(0, number):
-            a = 0
-            b = 0
-            c = 0
-            while(a<150 and b<150 and c<150):
-                a = random.randint(0,255)
-                b = random.randint(0,255)
-                c = random.randint(0,255)
-            colours.append((a, b, c))
-        return colours
+    def RandomiseColour(self):
+        a = 0
+        b = 0
+        c = 0
+        while(a<150 and b<150 and c<150):
+            a = random.randint(0,255)
+            b = random.randint(0,255)
+            c = random.randint(0,255)
+        return ((a, b, c))
 
-
-        
-        
-        
+    def SaveScore(self, name, score, time):
+        fileOut = open("./data/scores.csv","a")
+        fileOut.write(name + "," + str(score) + "," + str(time) + "\n")
+        fileOut.close()

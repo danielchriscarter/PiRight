@@ -4,10 +4,8 @@ GPIO.setmode(GPIO.BCM)
 
 del sys.argv[0]
 
-#def CheckInputs(pins):
-for pin_str in sys.argv:#pins:
+for pin_str in sys.argv:
     pin = int(pin_str)
     GPIO.setup(pin, GPIO.IN)
     if(GPIO.input(pin)==1):
-        print(pin)#return pin
-#    return 0
+        print(pin)
