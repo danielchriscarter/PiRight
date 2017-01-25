@@ -25,13 +25,13 @@ class PygameOutput(pygame.sprite.Sprite):
         colour = self.RandomiseColour()
 
         while 1:
-            self.screen.fill((100, 100, 50))
+            self.screen.fill((255, 249, 216))
 
-            quizImage = pygame.sprite.Sprite()
-            quizImage.image = pygame.image.load("./test pygame/image")
-            quizImage.rect = quizImage.image.get_rect()
-            quizImage.rect.topleft = [0, 0]
-            self.screen.blit(quizImage.image, quizImage.rect)
+            ##quizImage = pygame.sprite.Sprite()
+            ##quizImage.image = pygame.image.load("./test pygame/image")
+            ##quizImage.rect = quizImage.image.get_rect()
+           ## quizImage.rect.topleft = [0, 0]
+            ##self.screen.blit(quizImage.image, quizImage.rect)
             button_string = ""
             for button in self.BUTTONS:
                 button_string += (str(button) + " ")
@@ -59,11 +59,11 @@ class PygameOutput(pygame.sprite.Sprite):
                     if event.key == K_q and pygame.key.get_mods() and KMOD_CTRL:
                         pygame.quit()
                         sys.exit()
-                    elif event.key == K_RIGHT:
-                        correctFont = pygame.font.Font(None, 1000)
-                        result = correctFont.render("L", 1, (255, 0, 0))
-                        textpos = result.get_rect(centerx=self.width/2, centery=self.height/2)
-                        self.screen.blit(result, textpos)
+                    #elif event.key == K_RIGHT:
+                        #correctFont = pygame.font.Font(None, 1000)
+                        #result = correctFont.render("L", 1, (255, 0, 0))
+                        #textpos = result.get_rect(centerx=self.width/2, centery=self.height/2)
+                        #self.screen.blit(result, textpos)
                     elif event.key == K_a:
                         self.quiz.questions[index].answer = "a"
                         answered = True
@@ -119,10 +119,12 @@ class PygameOutput(pygame.sprite.Sprite):
 
     def DisplayQuestion(self,index, colour):
         self.DisplayText(self.quiz.questions[index].text,50, colour ,x=self.width/2, y= 50)
-        self.DisplayText("A: " + self.quiz.questions[index].choices['a'], 35, (255,255,0),x=self.width/3, y=300)
-        self.DisplayText("B: " + self.quiz.questions[index].choices['b'], 35, (0,255,0),x=2*self.width/3, y=300)
-        self.DisplayText("C: " + self.quiz.questions[index].choices['c'], 35, (255,0,0),x=self.width/3, y=400)
-        self.DisplayText("D: " + self.quiz.questions[index].choices['d'], 35, (0,0,255),x=2*self.width/3, y=400)
+        self.DisplayText("A: " + self.quiz.questions[index].choices['a'], 35, (252,217,32),x=self.width/3, y=200)
+        self.DisplayText("B: " + self.quiz.questions[index].choices['b'], 35, (160,224,87),x=2*self.width/3, y=200)
+        self.DisplayText("C: " + self.quiz.questions[index].choices['c'], 35, (229,59,81),x=self.width/3, y=300)
+        self.DisplayText("D: " + self.quiz.questions[index].choices['d'], 35, (60,181,181),x=2*self.width/3, y=300)
+
+    def AnswerBox(
 
     def RandomiseColour(self):
         a = 0
