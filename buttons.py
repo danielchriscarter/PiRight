@@ -9,3 +9,4 @@ for pin_str in sys.argv:
     GPIO.setup(pin, GPIO.IN)
     if(GPIO.input(pin)==1):
         print(pin)
+GPIO.cleanup()

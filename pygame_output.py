@@ -35,7 +35,7 @@ class PygameOutput(pygame.sprite.Sprite):
             button_string = ""
             for button in self.BUTTONS:
                 button_string += (str(button) + " ")
-            buttonPressed = [0,0,0,0,0]#os.system("gksudo ./scripts/run_buttons.sh " + button_string)
+            buttonPressed = os.system("gksudo ./scripts/run_buttons.sh " + button_string) #[0,0,0,0,0]
             if(buttonPressed==self.BUTTONS[0]):
                 self.quiz.questions[index].answer = "a"
                 answered = True
