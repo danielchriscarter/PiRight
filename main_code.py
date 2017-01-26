@@ -5,7 +5,7 @@ from pygame_output import PygameOutput
 quiz = logic.Quiz("./data/questions.csv")
 
 if __name__ == "__main__":
-    Window = PygameOutput(quiz, [24,25,8,7]) #Check these numbers work
+    Window = PygameOutput(quiz, ["24","25","7","8"]) #Check these numbers work
     Window.Main()
 
 

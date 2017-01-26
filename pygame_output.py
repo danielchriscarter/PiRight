@@ -4,6 +4,8 @@ from pygame.locals import *
 import time
 import random
 import logic
+import subprocess
+import re
 
 class PygameOutput(pygame.sprite.Sprite):
 
@@ -21,7 +23,7 @@ class PygameOutput(pygame.sprite.Sprite):
         answered = False
         finished = False
         index = 0
-        startTime = time.time() # To declare scope
+        startTime = time.time()
         colour = self.RandomiseColour()
 
         while 1:
@@ -35,7 +37,7 @@ class PygameOutput(pygame.sprite.Sprite):
             button_string = ""
             for button in self.BUTTONS:
                 button_string += (str(button) + " ")
-            buttonPressed = os.system("gksudo ./scripts/run_buttons.sh " + button_string) #[0,0,0,0,0]
+            buttonPressed = re.sub("\D", "", str(subprocess.check_output(["gksudo"] +  ["./scripts/run_buttons.sh"] + self.BUTTONS)))
             if(buttonPressed==self.BUTTONS[0]):
                 self.quiz.questions[index].answer = "a"
                 answered = True
@@ -124,7 +126,7 @@ class PygameOutput(pygame.sprite.Sprite):
         self.DisplayText("C: " + self.quiz.questions[index].choices['c'], 35, (229,59,81),x=self.width/3, y=300)
         self.DisplayText("D: " + self.quiz.questions[index].choices['d'], 35, (60,181,181),x=2*self.width/3, y=300)
 
-    def AnswerBox(
+    #def AnswerBox(
 
     def RandomiseColour(self):
         a = 0
