@@ -4,15 +4,17 @@ from pygame.locals import *
 import time
 import random
 import logic
+import buttons
 import re
 
 class PygameOutput(pygame.sprite.Sprite):
 
-    def __init__(self, width, height, screen, quiz, buttons):
+    def __init__(self, width, height, screen, quiz, buttonSet):
         self.width = width
         self.height = height
         self.quiz = quiz
-        self.BUTTONS = buttons
+        self.BUTTONS = buttonSet
+        buttons.Setup(self.BUTTONS)
         self.screen = screen
         
     def Main(self):
@@ -30,10 +32,10 @@ class PygameOutput(pygame.sprite.Sprite):
             ##quizImage.rect = quizImage.image.get_rect()
            ## quizImage.rect.topleft = [0, 0]
             ##self.screen.blit(quizImage.image, quizImage.rect)
-            button_string = ""
-            for button in self.BUTTONS:
-                button_string += (str(button) + " ")
-            buttonPressed = [0,0,0,0]#re.sub("\D", "", str(subprocess.check_output(["gksudo"] +  ["./scripts/run_buttons.sh"] + self.BUTTONS)))
+            #button_string = ""
+            #for button in self.BUTTONS:
+                #button_string += (str(button) + " ")
+            buttonPressed = buttons.CheckPins(self.BUTTONS) #[0,0,0,0]#re.sub("\D", "", str(subprocess.check_output(["gksudo"] +  ["./scripts/run_buttons.sh"] + self.BUTTONS)))
             if(buttonPressed==self.BUTTONS[0]):
                 self.quiz.questions[index].answer = "a"
                 answered = True
@@ -55,6 +57,7 @@ class PygameOutput(pygame.sprite.Sprite):
                 
                 if event.type == KEYDOWN:
                     if event.key == K_q and pygame.key.get_mods() and KMOD_CTRL:
+                        buttons.Cleanup()
                         pygame.quit()
                         sys.exit()
                     elif event.key == K_a:

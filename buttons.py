@@ -1,12 +1,15 @@
 import RPi.GPIO as GPIO
-import sys
 GPIO.setmode(GPIO.BCM)
 
-del sys.argv[0]
+def Setup(pins):
+    for pin in pins:
+        GPIO.setup(pin, GPIO.IN)
 
-for pin_str in sys.argv:
-    pin = int(pin_str)
-    GPIO.setup(pin, GPIO.IN)
-    if(GPIO.input(pin)==1):
-        print(pin)
-GPIO.cleanup()
+def CheckPins(pins):
+    for pin in pins:
+        if(GPIO.input(pin)==1):
+            return pin
+    return 0
+
+def Cleanup():
+    GPIO.cleanup()

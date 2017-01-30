@@ -52,7 +52,7 @@ class HomeScreen(pygame.sprite.Sprite):
                         sys.exit()
                     elif(self.DetectCircularCollision(centre_play, radius_play, pygame.mouse.get_pos())):
                         quiz = logic.Quiz("./data/questions.csv")
-                        Window = pygame_output.PygameOutput(self.width, self.height, self.screen, quiz, ["24","25","7","8"])
+                        Window = pygame_output.PygameOutput(self.width, self.height, self.screen, quiz, [24,25,7,8])
                         Window.Main()
 
             if pygame.font:
