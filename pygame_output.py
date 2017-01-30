@@ -4,20 +4,16 @@ from pygame.locals import *
 import time
 import random
 import logic
-import subprocess
 import re
 
 class PygameOutput(pygame.sprite.Sprite):
 
-    def __init__(self, quiz, buttons, width = 800, height = 480):
-        pygame.init()
+    def __init__(self, width, height, screen, quiz, buttons):
         self.width = width
         self.height = height
-        # Remove third argument to test on non-touchscreen display
-        self.screen = pygame.display.set_mode((self.width, self.height))#, pygame.FULLSCREEN)
         self.quiz = quiz
         self.BUTTONS = buttons
-        pygame.mouse.set_visible(False)
+        self.screen = screen
         
     def Main(self):
         answered = False
@@ -37,7 +33,7 @@ class PygameOutput(pygame.sprite.Sprite):
             button_string = ""
             for button in self.BUTTONS:
                 button_string += (str(button) + " ")
-            buttonPressed = re.sub("\D", "", str(subprocess.check_output(["gksudo"] +  ["./scripts/run_buttons.sh"] + self.BUTTONS)))
+            buttonPressed = [0,0,0,0]#re.sub("\D", "", str(subprocess.check_output(["gksudo"] +  ["./scripts/run_buttons.sh"] + self.BUTTONS)))
             if(buttonPressed==self.BUTTONS[0]):
                 self.quiz.questions[index].answer = "a"
                 answered = True
@@ -61,11 +57,6 @@ class PygameOutput(pygame.sprite.Sprite):
                     if event.key == K_q and pygame.key.get_mods() and KMOD_CTRL:
                         pygame.quit()
                         sys.exit()
-                    #elif event.key == K_RIGHT:
-                        #correctFont = pygame.font.Font(None, 1000)
-                        #result = correctFont.render("L", 1, (255, 0, 0))
-                        #textpos = result.get_rect(centerx=self.width/2, centery=self.height/2)
-                        #self.screen.blit(result, textpos)
                     elif event.key == K_a:
                         self.quiz.questions[index].answer = "a"
                         answered = True

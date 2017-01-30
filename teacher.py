@@ -4,13 +4,8 @@ from pygame.locals import *
 
 class TeacherMode(pygame.sprite.Sprite):
 
-    def __init__(self, width = 800, height = 480):
-        pygame.init()
-        self.width = width
-        self.height = height
-        # Remove third argument to test on non-touchscreen display
-        self.screen = pygame.display.set_mode((self.width, self.height))#, pygame.FULLSCREEN)
-        pygame.mouse.set_visible(True)#temporarily, to test
+    def __init__(self, screen):
+        self.screen = screen
         
     def Main(self):
         warning = False
@@ -64,8 +59,7 @@ class TeacherMode(pygame.sprite.Sprite):
                         if(self.DetectCollision(import_btn, pygame.mouse.get_pos())):
                             os.system("gksudo ./scripts/import.sh")
                         elif(self.DetectCollision(exit_btn, pygame.mouse.get_pos())):
-                            # May need reworking to return to user mode
-                            pygame.quit()
+                            return
                         elif(self.DetectCollision(export_btn, pygame.mouse.get_pos())):
                             os.system("gksudo ./scripts/export.sh")
                         elif(self.DetectCollision(clear_btn, pygame.mouse.get_pos())):
@@ -90,8 +84,3 @@ class TeacherMode(pygame.sprite.Sprite):
         if(mousePos[0]>boxPos[0] and mousePos[0] < boxPos[0]+boxPos[2] and mousePos[1] > boxPos[1] and mousePos[1] < boxPos[1]+boxPos[3]):
                 return True
         return False
-
-
-#These are present for testing only - REMOVE when adding to final product
-Window = TeacherMode()
-Window.Main()
