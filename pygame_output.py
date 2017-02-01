@@ -32,22 +32,20 @@ class PygameOutput(pygame.sprite.Sprite):
             ##quizImage.rect = quizImage.image.get_rect()
            ## quizImage.rect.topleft = [0, 0]
             ##self.screen.blit(quizImage.image, quizImage.rect)
-            #button_string = ""
-            #for button in self.BUTTONS:
-                #button_string += (str(button) + " ")
-            buttonPressed = buttons.CheckPins(self.BUTTONS) #[0,0,0,0]#re.sub("\D", "", str(subprocess.check_output(["gksudo"] +  ["./scripts/run_buttons.sh"] + self.BUTTONS)))
-            if(buttonPressed==self.BUTTONS[0]):
-                self.quiz.questions[index].answer = "a"
-                answered = True
-            elif(buttonPressed==self.BUTTONS[1]):
-                self.quiz.questions[index].answer = "b"
-                answered = True
-            elif(buttonPressed==self.BUTTONS[2]):
-                self.quiz.questions[index].answer = "c"
-                answered = True
-            elif(buttonPressed==self.BUTTONS[3]):
-                self.quiz.questions[index].answer = "d"
-                answered = True
+            if(answered==False):
+                buttonPressed = buttons.CheckPins(self.BUTTONS) #[0,0,0,0]
+                if(buttonPressed==self.BUTTONS[0]):
+                    self.quiz.questions[index].answer = "a"
+                    answered = True
+                elif(buttonPressed==self.BUTTONS[1]):
+                    self.quiz.questions[index].answer = "b"
+                    answered = True
+                elif(buttonPressed==self.BUTTONS[2]):
+                    self.quiz.questions[index].answer = "c"
+                    answered = True
+                elif(buttonPressed==self.BUTTONS[3]):
+                    self.quiz.questions[index].answer = "d"
+                    answered = True
 
 
             for event in pygame.event.get():
