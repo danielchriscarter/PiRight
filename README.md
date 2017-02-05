@@ -14,7 +14,7 @@ This has only been tested on Raspbian, but may also work on other distributions
 ## To set up
  `git clone https://github.com/danielchriscarter/PiRight`
 
- `sudo python3 main_code.py`
+ `sudo python3 home.py`
 
 ## Used Libraries
 * Pygame(LGPL)
