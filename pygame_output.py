@@ -6,6 +6,7 @@ import random
 import logic
 import buttons
 import re
+import virtualKeyboard
 
 class PygameOutput(pygame.sprite.Sprite):
 
@@ -53,6 +54,7 @@ class PygameOutput(pygame.sprite.Sprite):
                     pygame.quit()
                     sys.exit()
                 
+                #This is all test code - to be removed in final version
                 if event.type == KEYDOWN:
                     if event.key == K_q and pygame.key.get_mods() and KMOD_CTRL:
                         buttons.Cleanup()
@@ -89,8 +91,8 @@ class PygameOutput(pygame.sprite.Sprite):
                     self.DisplayText("Your score is: " + str(self.quiz.questions_score),60, (255,0,0), x=self.width/2, y=self.height/4)
                     self.DisplayText("Total Time: " + str(timeTaken) + "s", 60, (255,0,0), x=self.width/2, y=3*self.height/4)
                     if(answered==True):
-                        # Need to add name gathering mechanism here!
-                        self.SaveScore("Joe Bloggs", self.quiz.questions_score, timeTaken)
+                        vkeybd = virtualKeyboard.VirtualKeyboard(self.screen)
+                        self.SaveScore(vkeybd.run(""), self.quiz.questions_score, timeTaken)
                         answered = False
 
                 elif(answered==False):
