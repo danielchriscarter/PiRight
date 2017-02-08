@@ -1,6 +1,7 @@
 import os, sys
 import pygame
 from pygame.locals import *
+from pygame_funcs import *
 
 class TeacherMode(pygame.sprite.Sprite):
 
@@ -9,6 +10,7 @@ class TeacherMode(pygame.sprite.Sprite):
         
     def Main(self):
         warning = False
+        # All buttons use x-position, y-position, x-size, y-size
         import_btn = (150, 150, 180,50)
         exit_btn = (150, 350, 180,50)
         export_btn = (470, 150, 180,50)
@@ -29,16 +31,16 @@ class TeacherMode(pygame.sprite.Sprite):
                         sys.exit()
                     
                     if event.type == MOUSEBUTTONDOWN and event.button == 1:
-                        if(self.DetectCollision(yes_btn, pygame.mouse.get_pos())):
+                        if(DetectCollision(yes_btn, pygame.mouse.get_pos())):
                             os.system("gksudo ./scripts/clear.sh")
                             warning = False
-                        elif(self.DetectCollision(no_btn, pygame.mouse.get_pos())):
+                        elif(DetectCollision(no_btn, pygame.mouse.get_pos())):
                             warning = False
                 
                 if pygame.font:
-                    self.DisplayText("Are you sure you wish to erase all scores?", 40, (255,255,255), x=400, y=50)
-                    self.DisplayText("Yes", 40, (255,255,255), x=240, y=340)
-                    self.DisplayText("No", 40, (255,255,255), x=560, y=340)
+                    DisplayText(self.screen, "Are you sure you wish to erase all scores?", 40, (255,255,255), x=400, y=50)
+                    DisplayText(self.screen, "Yes", 40, (255,255,255), x=240, y=340)
+                    DisplayText(self.screen, "No", 40, (255,255,255), x=560, y=340)
             
             else:   
                 self.rect = pygame.draw.rect(self.screen, (255,0,0), import_btn,0)
@@ -50,37 +52,22 @@ class TeacherMode(pygame.sprite.Sprite):
                     if event.type == pygame.QUIT:
                         pygame.quit()
                         sys.exit()
-                    
-                    #if event.type == KEYDOWN:
-                        #if event.key == K_RETURN:
-                            #os.system("gksudo ./scripts/import.sh")
-                    
+                                                            
                     if event.type == MOUSEBUTTONDOWN and event.button == 1:
-                        if(self.DetectCollision(import_btn, pygame.mouse.get_pos())):
+                        if(DetectCollision(import_btn, pygame.mouse.get_pos())):
                             os.system("gksudo ./scripts/import.sh")
-                        elif(self.DetectCollision(exit_btn, pygame.mouse.get_pos())):
+                        elif(DetectCollision(exit_btn, pygame.mouse.get_pos())):
                             return
-                        elif(self.DetectCollision(export_btn, pygame.mouse.get_pos())):
+                        elif(DetectCollision(export_btn, pygame.mouse.get_pos())):
                             os.system("gksudo ./scripts/export.sh")
-                        elif(self.DetectCollision(clear_btn, pygame.mouse.get_pos())):
+                        elif(DetectCollision(clear_btn, pygame.mouse.get_pos())):
                             warning = True
                     
                 if pygame.font:
-                    self.DisplayText("Teacher Mode", 60, (255,255,255), x=400, y=50)
-                    self.DisplayText("Import questions", 30, (255,255,255), x=240, y=175)
-                    self.DisplayText("Exit", 30, (255,255,255), x=240, y=375)
-                    self.DisplayText("Export scores", 30, (255,255,255), x=560, y=175)
-                    self.DisplayText("Clear scores", 30, (255,255,255), x=560, y=375)
+                    DisplayText(self.screen, "Teacher Mode", 60, (255,255,255), x=400, y=50)
+                    DisplayText(self.screen, "Import questions", 30, (255,255,255), x=240, y=175)
+                    DisplayText(self.screen, "Exit", 30, (255,255,255), x=240, y=375)
+                    DisplayText(self.screen, "Export scores", 30, (255,255,255), x=560, y=175)
+                    DisplayText(self.screen, "Clear scores", 30, (255,255,255), x=560, y=375)
                     
             pygame.display.update()
-
-    def DisplayText(self,text, size, colour, x=0, y=0):
-        font = pygame.font.Font(None, size)
-        text = font.render(text, 1, (colour))
-        textpos = text.get_rect(centerx=x, centery=y)
-        self.screen.blit(text, textpos)
-
-    def DetectCollision(self, boxPos, mousePos):
-        if(mousePos[0]>boxPos[0] and mousePos[0] < boxPos[0]+boxPos[2] and mousePos[1] > boxPos[1] and mousePos[1] < boxPos[1]+boxPos[3]):
-                return True
-        return False

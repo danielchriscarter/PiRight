@@ -7,6 +7,7 @@ import logic
 import buttons
 import re
 import virtualKeyboard
+from pygame_funcs import *
 
 class PygameOutput(pygame.sprite.Sprite):
 
@@ -21,9 +22,11 @@ class PygameOutput(pygame.sprite.Sprite):
     def Main(self):
         answered = False
         finished = False
+        ans_waiting = False
         index = 0
         startTime = time.time()
         colour = self.RandomiseColour()
+        back_btn = (300,300,200,120)
 
         while 1:
             self.screen.fill((255, 249, 216))
@@ -53,6 +56,11 @@ class PygameOutput(pygame.sprite.Sprite):
                 if event.type == pygame.QUIT:
                     pygame.quit()
                     sys.exit()
+
+                if event.type == MOUSEBUTTONDOWN and event.button == 1:
+                    if(finished==True and answered==False):
+                        if(DetectCollision(back_btn, pygame.mouse.get_pos())):
+                            return
                 
                 #This is all test code - to be removed in final version
                 if event.type == KEYDOWN:
@@ -72,55 +80,58 @@ class PygameOutput(pygame.sprite.Sprite):
                     elif event.key == K_d:
                         self.quiz.questions[index].answer = "d"
                         answered = True
-                    elif event.key == K_RETURN and answered==True and finished==False:
-                        self.quiz.questions[index].duration = time.time() - startTime
-                        if self.quiz.questions[index].checkAnswer():
-                            self.quiz.questions_score = self.quiz.questions_score + 1
-	
-                        if(index==len(self.quiz.questions)-1):
-                            finished = True
-                        else:
-                            answered = False;
-                            index += 1
-                            startTime = time.time()
-                            colour = self.RandomiseColour()
+                    
+            if(answered==True and finished==False):
+                if(ans_waiting == False):
+                    self.quiz.questions[index].duration = time.time() - startTime
+                    if self.quiz.questions[index].checkAnswer():
+                        self.quiz.questions_score = self.quiz.questions_score + 1
+                    startTime = time.time()
+                    ans_waiting = True
+                elif((time.time()-startTime)>2):
+                    startTime = time.time()
+                    if(index==len(self.quiz.questions)-1):
+                        finished = True
+                    else:
+                        index += 1
+                        colour = self.RandomiseColour()
+                        answered = False
+                        ans_waiting = False
                 
             if pygame.font:
                 if(finished==True):
                     timeTaken = round(self.quiz.totalTime(),2)
-                    self.DisplayText("Your score is: " + str(self.quiz.questions_score),60, (255,0,0), x=self.width/2, y=self.height/4)
-                    self.DisplayText("Total Time: " + str(timeTaken) + "s", 60, (255,0,0), x=self.width/2, y=3*self.height/4)
+                    DisplayText(self.screen, "Your score is: " + str(self.quiz.questions_score),60, (255,0,0), x=self.width/2, y=self.height/4)
+                    DisplayText(self.screen, "Total Time: " + str(timeTaken) + "s", 60, (255,0,0), x=self.width/2, y=self.height/2)
                     if(answered==True):
-                        vkeybd = virtualKeyboard.VirtualKeyboard(self.screen)
-                        self.SaveScore(vkeybd.run(""), self.quiz.questions_score, timeTaken)
-                        answered = False
+                        DisplayText(self.screen, "Please enter your name", 40, (255,0,0), x=self.width/2, y=3*self.height/4)
+                        if((time.time()-startTime)>5):
+                            vkeybd = virtualKeyboard.VirtualKeyboard(self.screen)
+                            self.SaveScore(vkeybd.run(""), self.quiz.questions_score, timeTaken)
+                            answered = False
+                    else:
+                        self.rect = pygame.draw.rect(self.screen, (160,224,87), back_btn, 0)
+                        DisplayText(self.screen, "Main Menu", 40, (255,255,255), x=400, y=360)
 
+                #If user hasn't finished
                 elif(answered==False):
                     self.DisplayQuestion(index, colour)
                 else:
                     if self.quiz.questions[index].checkAnswer():
-                        self.DisplayText("Correct!", 60, (0,255,0), x=self.width/2, y=self.height/2)
+                        DisplayText(self.screen, "Correct!", 60, (0,255,0), x=self.width/2, y=self.height/2)
                     else:
-                        self.DisplayText("Incorrect", 50, (255,0,0), x=self.width/2, y=self.height/2)
-                        self.DisplayText("The Correct Answer Was " + self.quiz.questions[index].printCorrectAnswer(),  30, (255,0,0), x=self.width/2, y=self.height/2+30)
+                        DisplayText(self.screen, "Incorrect", 50, (255,0,0), x=self.width/2, y=self.height/2)
+                        DisplayText(self.screen, "The Correct Answer Was " + self.quiz.questions[index].printCorrectAnswer(),  30, (255,0,0), x=self.width/2, y=self.height/2+30)
 
                     
             pygame.display.update()
 
-    def DisplayText(self,text, size, colour, x=0, y=0):
-        font = pygame.font.Font(None, size)
-        text = font.render(text, 1, (colour))
-        textpos = text.get_rect(centerx=x, centery=y)
-        self.screen.blit(text, textpos)
-
     def DisplayQuestion(self,index, colour):
-        self.DisplayText(self.quiz.questions[index].text,50, colour ,x=self.width/2, y= 50)
-        self.DisplayText("A: " + self.quiz.questions[index].choices['a'], 35, (252,217,32),x=self.width/3, y=200)
-        self.DisplayText("B: " + self.quiz.questions[index].choices['b'], 35, (160,224,87),x=2*self.width/3, y=200)
-        self.DisplayText("C: " + self.quiz.questions[index].choices['c'], 35, (229,59,81),x=self.width/3, y=300)
-        self.DisplayText("D: " + self.quiz.questions[index].choices['d'], 35, (60,181,181),x=2*self.width/3, y=300)
-
-    #def AnswerBox(
+        DisplayText(self.screen, self.quiz.questions[index].text,50, colour ,x=self.width/2, y= 50)
+        DisplayText(self.screen, "A: " + self.quiz.questions[index].choices['a'], 35, (252,217,32),x=self.width/3, y=200)
+        DisplayText(self.screen, "B: " + self.quiz.questions[index].choices['b'], 35, (160,224,87),x=2*self.width/3, y=200)
+        DisplayText(self.screen, "C: " + self.quiz.questions[index].choices['c'], 35, (229,59,81),x=self.width/3, y=300)
+        DisplayText(self.screen, "D: " + self.quiz.questions[index].choices['d'], 35, (60,181,181),x=2*self.width/3, y=300)
 
     def RandomiseColour(self):
         a = 0
