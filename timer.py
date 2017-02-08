@@ -7,11 +7,11 @@ import time
 
 class Timer(pygame.sprite.Sprite):
 
-    def __init__ (self, screen, width, height):
+    def __init__ (self):
         pygame.init()
-        self.width = width
-        self.height = height
-        self.screen = pygame.display.set_mode((800, 480))
+        self.width = 800
+        self.height = 480
+        self.screen = pygame.display.set_mode((self.width,self.height))
 
     def Main(self):
         answered = False
@@ -20,18 +20,19 @@ class Timer(pygame.sprite.Sprite):
             self.screen.fill((255,249,216))
 
             timerImage = pygame.sprite.Sprite()
-            timerImage.image = pygame.image.load("/home/pi/2016-17/blue-car-top-view-hi.png")
-            screen.blit(timerImage, (width/2, height/2))
+            timerImage.image = pygame.image.load("blue-car-top-view-hi.png")
+            timerImage.rect = timerImage.image.get_rect()
+            timerImage.rect.topleft = [0,0]
+            self.screen.blit(pygame.transform.scale(timerImage.image, (80,40)),  timerImage.rect)
 
-            pygame.display.update
+            pygame.display.update()
 
 Window = Timer()
 Window.Main()
 
 #Stashed changes
-import time
 
-t = 0
+"""t = 0
 pause = False
 
 while pause == False:
@@ -39,4 +40,4 @@ while pause == False:
     t += 1
     print (t)
     if t == 10:
-        pause = True
+        pause = True"""
