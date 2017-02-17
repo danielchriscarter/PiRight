@@ -1,7 +1,7 @@
 import os, sys
+import subprocess
 import pygame
 import logic
-import teacher
 import pygame_output
 from pygame.locals import *
 from pygame_funcs import *
@@ -36,18 +36,16 @@ class HomeScreen(pygame.sprite.Sprite):
                     sys.exit()
 
                 if event.type == KEYDOWN:
+                    #Test code only
                     if event.key == K_q and pygame.key.get_mods() and KMOD_CTRL:
                         pygame.quit()
                         sys.exit()
-
-                    #elif event.key == K_b:
-                        #Window = PygameOutput(quiz, [24,25,8,7]) #Check these numbers work
-                        #Window.Main()
-
+                    
                 if event.type == MOUSEBUTTONDOWN and event.button == 1:
                     if(DetectCollision(btn_teacher, pygame.mouse.get_pos())):
-                        Window = teacher.TeacherMode(self.screen)
-                        Window.Main()
+                        self.screen = pygame.display.set_mode((self.width, self.height), pygame.NOFRAME)
+                        subprocess.call(["gksudo", "python3", "teacher.py"])
+                        self.screen = pygame.display.set_mode((self.width, self.height), pygame.FULLSCREEN)
                     elif(DetectCollision(btn_exit, pygame.mouse.get_pos())):
                         pygame.quit()
                         sys.exit()
