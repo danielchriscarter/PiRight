@@ -7,6 +7,7 @@ It is intended as an entry to the [PA Pi Competition](http://www.paconsulting.co
 ## Requirements
 * Python3 - `apt-get install python3`
 * Pygame - [instructions for installation](http://askubuntu.com/questions/401342/how-to-download-pygame-in-python3-3)
+* Tkinter - `apt-get install python3-tk`
 * usbmount (handles importing of data from USB drives) - `apt-get install usbmount`
 
 This has only been tested on Raspbian, but may also work on other distributions
@@ -14,7 +15,7 @@ This has only been tested on Raspbian, but may also work on other distributions
 ## To set up
  `git clone https://github.com/danielchriscarter/PiRight`
 
- `sudo python3 home.py`
+ `python3 home.py`
 
 ## Used Libraries
 * Pygame(LGPL)
