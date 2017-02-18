@@ -17,19 +17,30 @@ class HomeScreen(pygame.sprite.Sprite):
         #pygame.mouse.set_visible(False)
 
     def Main(self):
+
+        playButton = pygame.image.load('green-road-sign-md.png')
+        playButton = pygame.transform.scale(playButton, (300, 200))
+        stopButton = pygame.image.load('stop.png')
+        teacherButton = pygame.image.load('teacherIcon.png')
+        homeBackground = pygame.image.load('country-side-hi.png')
+        homeBackground = pygame.transform.scale(homeBackground, (860,480))
         
         while 1:
             self.screen.fill((255, 249, 216))
-
+            self.screen.blit(homeBackground, (-30,0))
+            self.screen.blit(playButton, (250,175))
             centre_play = (400,240)
             radius_play = 100
             btn_teacher = (590,0,100,50)
             btn_exit = (700,0,100,50)
 
-            self.circle = pygame.draw.circle(self.screen, (160,224,87), centre_play, radius_play)
-            self.rect = pygame.draw.rect(self.screen, (0,0,255), btn_teacher ,0)
-            self.rect = pygame.draw.rect(self.screen, (255,0,0), btn_exit ,0)
-
+            #self.circle = pygame.draw.circle(self.screen, (160,224,87), centre_play, radius_play)
+            #self.rect = pygame.draw.rect(self.screen, (0,0,255), btn_teacher ,0)
+            #self.rect = pygame.draw.rect(self.screen, (255,0,0), btn_exit ,0)
+            self.screen.blit(stopButton, (700,0))
+            self.screen.blit(teacherButton, (590,10))
+            
+            
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     pygame.quit()
@@ -56,8 +67,8 @@ class HomeScreen(pygame.sprite.Sprite):
 
             if pygame.font:
                 DisplayText(self.screen, "PLAY!", 64, (255,255,255), x=400, y=240)
-                DisplayText(self.screen, "Teacher Mode", 18, (255,255,255), x=640, y=25)
-                DisplayText(self.screen, "Exit", 18, (255,255,255), x=750, y=25)
+                #DisplayText(self.screen, "Teacher Mode", 18, (255,255,255), x=640, y=25)
+                #DisplayText(self.screen, "Exit", 18, (255,255,255), x=750, y=25)
 
             pygame.display.update()
 

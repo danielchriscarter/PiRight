@@ -18,6 +18,7 @@ class PygameOutput(pygame.sprite.Sprite):
         self.BUTTONS = buttonSet
         buttons.Setup(self.BUTTONS)
         self.screen = screen
+       
         
     def Main(self):
         answered = False
@@ -27,14 +28,25 @@ class PygameOutput(pygame.sprite.Sprite):
         startTime = time.time()
         colour = self.RandomiseColour()
         back_btn = (300,300,200,120)
+        car = pygame.image.load('light-blue-car-top-view-th.png')
+        carSprite = pygame.transform.scale(car, (40, 20))
+        board = pygame.image.load('bigBoard.png')
+        board = pygame.transform.scale(board, (650, 350))
+        road = pygame.image.load('passing-zone-md.png')
+        road = pygame.transform.scale(road, (800, 50))
+        carWidth = 70
+        carHeight = 402
+        print (startTime)
 
         while 1:
             self.screen.fill((255, 249, 216))
-
+            self.screen.blit(board,(75,20))
+            self.screen.blit(road, (0,400))
+           
             ##quizImage = pygame.sprite.Sprite()
             ##quizImage.image = pygame.image.load("./test pygame/image")
             ##quizImage.rect = quizImage.image.get_rect()
-           ## quizImage.rect.topleft = [0, 0]
+            ##quizImage.rect.topleft = [0, 0]
             ##self.screen.blit(quizImage.image, quizImage.rect)
             if(answered==False):
                 buttonPressed = buttons.CheckPins(self.BUTTONS) #[0,0,0,0]
@@ -46,10 +58,16 @@ class PygameOutput(pygame.sprite.Sprite):
                     answered = True
                 elif(buttonPressed==self.BUTTONS[2]):
                     self.quiz.questions[index].answer = "c"
-                    answered = True
+                    answered = True 
                 elif(buttonPressed==self.BUTTONS[3]):
                     self.quiz.questions[index].answer = "d"
                     answered = True
+                else:
+                    self.screen.blit(car, (carWidth, carHeight))
+                    carWidth+=1
+                    if carWidth == 730:
+                        finished = True
+                        answered = True
 
 
             for event in pygame.event.get():
@@ -100,6 +118,7 @@ class PygameOutput(pygame.sprite.Sprite):
                 
             if pygame.font:
                 if(finished==True):
+                    self.quiz.questions[index].duration = time.time() - startTime
                     timeTaken = round(self.quiz.totalTime(),2)
                     DisplayText(self.screen, "Your score is: " + str(self.quiz.questions_score),60, (255,0,0), x=self.width/2, y=self.height/4)
                     DisplayText(self.screen, "Total Time: " + str(timeTaken) + "s", 60, (255,0,0), x=self.width/2, y=self.height/2)
@@ -118,7 +137,7 @@ class PygameOutput(pygame.sprite.Sprite):
                     self.DisplayQuestion(index, colour)
                 else:
                     if self.quiz.questions[index].checkAnswer():
-                        DisplayText(self.screen, "Correct!", 60, (0,255,0), x=self.width/2, y=self.height/2)
+                        DisplayText(self.screen, "Correct!", 60, (0,255,0), x=self.width/2, y=self.height/4)
                     else:
                         DisplayText(self.screen, "Incorrect", 50, (255,0,0), x=self.width/2, y=self.height/2)
                         DisplayText(self.screen, "The Correct Answer Was " + self.quiz.questions[index].printCorrectAnswer(),  30, (255,0,0), x=self.width/2, y=self.height/2+30)
@@ -127,11 +146,11 @@ class PygameOutput(pygame.sprite.Sprite):
             pygame.display.update()
 
     def DisplayQuestion(self,index, colour):
-        DisplayText(self.screen, self.quiz.questions[index].text,50, colour ,x=self.width/2, y= 50)
-        DisplayText(self.screen, "A: " + self.quiz.questions[index].choices['a'], 35, (252,217,32),x=self.width/3, y=200)
-        DisplayText(self.screen, "B: " + self.quiz.questions[index].choices['b'], 35, (160,224,87),x=2*self.width/3, y=200)
-        DisplayText(self.screen, "C: " + self.quiz.questions[index].choices['c'], 35, (229,59,81),x=self.width/3, y=300)
-        DisplayText(self.screen, "D: " + self.quiz.questions[index].choices['d'], 35, (60,181,181),x=2*self.width/3, y=300)
+        DisplayText(self.screen, self.quiz.questions[index].text,50, colour ,x=self.width/2, y= 75)
+        DisplayText(self.screen, "A: " + self.quiz.questions[index].choices['a'], 35, (252,217,32),x=self.width/3, y=150)
+        DisplayText(self.screen, "B: " + self.quiz.questions[index].choices['b'], 35, (160,224,87),x=2*self.width/3, y=150)
+        DisplayText(self.screen, "C: " + self.quiz.questions[index].choices['c'], 35, (229,59,81),x=self.width/3, y=200)
+        DisplayText(self.screen, "D: " + self.quiz.questions[index].choices['d'], 35, (60,181,181),x=2*self.width/3, y=200)
 
     def RandomiseColour(self):
         a = 0
