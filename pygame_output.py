@@ -24,15 +24,16 @@ class PygameOutput(pygame.sprite.Sprite):
         answered = False
         finished = False
         ans_waiting = False
+        name_entered = False
         index = 0
         startTime = time.time()
         colour = self.RandomiseColour()
         back_btn = (300,300,200,120)
-        car = pygame.image.load('light-blue-car-top-view-th.png')
+        car = pygame.image.load('images/light-blue-car-top-view-th.png')
         carSprite = pygame.transform.scale(car, (40, 20))
-        board = pygame.image.load('bigBoard.png')
+        board = pygame.image.load('images/bigBoard.png')
         board = pygame.transform.scale(board, (650, 350))
-        road = pygame.image.load('passing-zone-md.png')
+        road = pygame.image.load('images/passing-zone-md.png')
         road = pygame.transform.scale(road, (800, 50))
         carWidth = 70
         carHeight = 402
@@ -43,11 +44,6 @@ class PygameOutput(pygame.sprite.Sprite):
             self.screen.blit(board,(75,20))
             self.screen.blit(road, (0,400))
            
-            ##quizImage = pygame.sprite.Sprite()
-            ##quizImage.image = pygame.image.load("./test pygame/image")
-            ##quizImage.rect = quizImage.image.get_rect()
-            ##quizImage.rect.topleft = [0, 0]
-            ##self.screen.blit(quizImage.image, quizImage.rect)
             if(answered==False):
                 buttonPressed = buttons.CheckPins(self.BUTTONS) #[0,0,0,0]
                 if(buttonPressed==self.BUTTONS[0]):
@@ -76,7 +72,7 @@ class PygameOutput(pygame.sprite.Sprite):
                     sys.exit()
 
                 if event.type == MOUSEBUTTONDOWN and event.button == 1:
-                    if(finished==True and answered==False):
+                    if(name_entered==True):
                         if(DetectCollision(back_btn, pygame.mouse.get_pos())):
                             return
                 
@@ -118,16 +114,16 @@ class PygameOutput(pygame.sprite.Sprite):
                 
             if pygame.font:
                 if(finished==True):
-                    self.quiz.questions[index].duration = time.time() - startTime
+                    #self.quiz.questions[index].duration = time.time() - startTime
                     timeTaken = round(self.quiz.totalTime(),2)
                     DisplayText(self.screen, "Your score is: " + str(self.quiz.questions_score),60, (255,0,0), x=self.width/2, y=self.height/4)
                     DisplayText(self.screen, "Total Time: " + str(timeTaken) + "s", 60, (255,0,0), x=self.width/2, y=self.height/2)
-                    if(answered==True):
+                    if(name_entered==False):
                         DisplayText(self.screen, "Please enter your name", 40, (255,0,0), x=self.width/2, y=3*self.height/4)
                         if((time.time()-startTime)>5):
                             vkeybd = virtualKeyboard.VirtualKeyboard(self.screen)
                             self.SaveScore(vkeybd.run(""), self.quiz.questions_score, timeTaken)
-                            answered = False
+                            name_entered = True
                     else:
                         self.rect = pygame.draw.rect(self.screen, (160,224,87), back_btn, 0)
                         DisplayText(self.screen, "Main Menu", 40, (255,255,255), x=400, y=360)
