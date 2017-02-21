@@ -37,6 +37,7 @@ class Question:
         self.choices['d'] = row['Answer D']
         self.correct = row['Correct Answer']
         self.answer = ''
+        self.duration = 0
 
     def checkAnswer(self):
         return self.correct.lower() == self.answer.lower()

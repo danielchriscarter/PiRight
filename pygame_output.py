@@ -5,6 +5,7 @@ import time
 import random
 import logic
 import buttons
+#import buttons_non_pi as buttons
 import re
 import virtualKeyboard
 from pygame_funcs import *
@@ -27,7 +28,7 @@ class PygameOutput(pygame.sprite.Sprite):
         name_entered = False
         index = 0
         startTime = time.time()
-        colour = self.RandomiseColour()
+        colour = (0,0,0) #self.RandomiseColour()
         back_btn = (300,300,200,120)
         car = pygame.image.load('images/light-blue-car-top-view-th.png')
         carSprite = pygame.transform.scale(car, (40, 20))
@@ -37,7 +38,6 @@ class PygameOutput(pygame.sprite.Sprite):
         road = pygame.transform.scale(road, (800, 50))
         carWidth = 70
         carHeight = 402
-        print (startTime)
 
         while 1:
             self.screen.fill((255, 249, 216))
@@ -62,7 +62,6 @@ class PygameOutput(pygame.sprite.Sprite):
                     self.screen.blit(car, (carWidth, carHeight))
                     carWidth+=1
                     if carWidth == 730:
-                        #finished = True
                         answered = True
                         self.quiz.questions[index].duration = time.time() - startTime
                 if(answered==True):
@@ -96,7 +95,8 @@ class PygameOutput(pygame.sprite.Sprite):
                     elif event.key == K_d:
                         self.quiz.questions[index].answer = "d"
                         answered = True
-                    carWidth = 70
+                    if(answered==True):
+                        carWidth = 70
                     
             if(answered==True and finished==False):
                 if(ans_waiting == False):
@@ -111,7 +111,7 @@ class PygameOutput(pygame.sprite.Sprite):
                         finished = True
                     else:
                         index += 1
-                        colour = self.RandomiseColour()
+                        colour = (0,0,0) #self.RandomiseColour()
                         answered = False
                         ans_waiting = False
                 
@@ -138,8 +138,8 @@ class PygameOutput(pygame.sprite.Sprite):
                     if self.quiz.questions[index].checkAnswer():
                         DisplayText(self.screen, "Correct!", 60, (0,255,0), x=self.width/2, y=self.height/4)
                     else:
-                        DisplayText(self.screen, "Incorrect", 50, (255,0,0), x=self.width/2, y=self.height/2)
-                        DisplayText(self.screen, "The Correct Answer Was " + self.quiz.questions[index].printCorrectAnswer(),  30, (255,0,0), x=self.width/2, y=self.height/2+30)
+                        DisplayText(self.screen, "Incorrect", 50, (255,0,0), x=self.width/2, y=self.height/4)
+                        DisplayText(self.screen, "The Correct Answer Was " + self.quiz.questions[index].printCorrectAnswer(),  30, (255,0,0), x=self.width/2, y=self.height/4+30)
 
                     
             pygame.display.update()
