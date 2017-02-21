@@ -62,9 +62,11 @@ class PygameOutput(pygame.sprite.Sprite):
                     self.screen.blit(car, (carWidth, carHeight))
                     carWidth+=1
                     if carWidth == 730:
-                        finished = True
+                        #finished = True
                         answered = True
-
+                        self.quiz.questions[index].duration = time.time() - startTime
+                if(answered==True):
+                    carWidth = 70
 
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
@@ -94,6 +96,7 @@ class PygameOutput(pygame.sprite.Sprite):
                     elif event.key == K_d:
                         self.quiz.questions[index].answer = "d"
                         answered = True
+                    carWidth = 70
                     
             if(answered==True and finished==False):
                 if(ans_waiting == False):
