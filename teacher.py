@@ -4,6 +4,7 @@ from pygame.locals import *
 from pygame_funcs import *
 import tkinter
 from tkinter import filedialog
+import re
 
 class TeacherMode(pygame.sprite.Sprite):
 
@@ -12,6 +13,7 @@ class TeacherMode(pygame.sprite.Sprite):
         self.width = width
         self.height = height
         self.screen = pygame.display.set_mode((self.width, self.height), pygame.NOFRAME)
+        pygame.mouse.set_visible(False)
         
     def Main(self):
         warning = False
@@ -42,7 +44,7 @@ class TeacherMode(pygame.sprite.Sprite):
                             warning = False
                         elif(DetectCollision(no_btn, pygame.mouse.get_pos())):
                             warning = False
-                
+              
                 if pygame.font:
                     DisplayText(self.screen, "Are you sure you wish to erase all scores?", 40, (255,255,255), x=400, y=50)
                     DisplayText(self.screen, "Yes", 40, (255,255,255), x=240, y=340)
@@ -64,21 +66,21 @@ class TeacherMode(pygame.sprite.Sprite):
                         if(DetectCollision(import_btn, pygame.mouse.get_pos())):
                             root = tkinter.Tk()
                             root.withdraw()
-                            name = filedialog.askopenfilename(filetypes=[("CSV files","*.csv")],initialdir="/media")
+                            name = re.escape(str(filedialog.askopenfilename(filetypes=[("CSV files","*.csv")],initialdir="/media")))
                             os.system("cp " + name + " ./questions/")
                         elif(DetectCollision(exit_btn, pygame.mouse.get_pos())):
                             return
                         elif(DetectCollision(export_btn, pygame.mouse.get_pos())):
                             root = tkinter.Tk()
                             root.withdraw()
-                            name = filedialog.asksaveasfilename(defaultextension=".csv",initialdir="/media")
+                            name = re.escape(str(filedialog.asksaveasfilename(defaultextension=".csv",initialdir="/media")))
                             os.system("cp ./data/scores.csv " + name)
                         elif(DetectCollision(clear_btn, pygame.mouse.get_pos())):
                             warning = True
                         elif(DetectCollision(set_btn, pygame.mouse.get_pos())):
                             root = tkinter.Tk()
                             root.withdraw()
-                            name = filedialog.askopenfilename(filetypes=[("CSV files","*.csv")],initialdir="./questions")
+                            name = re.escape(str(filedialog.askopenfilename(filetypes=[("CSV files","*.csv")],initialdir="./questions")))
                             os.system("cp " + name + " ./data/questions.csv")
                     
                 if pygame.font:

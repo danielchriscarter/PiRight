@@ -10,10 +10,15 @@ It is intended as an entry to the [PA Pi Competition](http://www.paconsulting.co
 * Tkinter - `apt-get install python3-tk`
 * usbmount (handles importing of data from USB drives) - `apt-get install usbmount`
 
+Dependances can be installed using an included script, as shown below
 This has only been tested on Raspbian, but may also work on other distributions
 
 ## To set up
  `git clone https://github.com/danielchriscarter/PiRight`
+
+ `cd PiRight`
+
+ `sudo ./installDependancies.sh`
 
  `python3 home.py`
 

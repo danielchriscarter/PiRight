@@ -77,6 +77,9 @@ class PygameOutput(pygame.sprite.Sprite):
                         if(DetectCollision(back_btn, pygame.mouse.get_pos())):
                             return
                 
+                elif event.type == MOUSEBUTTONUP:
+                    pygame.mouse.set_pos(self.width,self.height)
+                
                 #This is all test code - to be removed in final version
                 if event.type == KEYDOWN:
                     if event.key == K_q and pygame.key.get_mods() and KMOD_CTRL:

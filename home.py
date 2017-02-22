@@ -13,8 +13,8 @@ class HomeScreen(pygame.sprite.Sprite):
         self.width = width
         self.height = height
         # Remove third argument to test on non-touchscreen display
-        self.screen = pygame.display.set_mode((self.width, self.height))#, pygame.FULLSCREEN)
-        #pygame.mouse.set_visible(False)
+        self.screen = pygame.display.set_mode((self.width, self.height), pygame.FULLSCREEN)
+        pygame.mouse.set_pos(self.width,self.height)
 
     def Main(self):
 
@@ -60,9 +60,13 @@ class HomeScreen(pygame.sprite.Sprite):
                         quiz = logic.Quiz("./data/questions.csv")
                         Window = pygame_output.PygameOutput(self.width, self.height, self.screen, quiz, [24,25,7,8])
                         Window.Main()
+                
+                elif event.type == MOUSEBUTTONUP:
+                    pygame.mouse.set_pos(self.width,self.height)
 
             if pygame.font:
                 DisplayText(self.screen, "PLAY!", 64, (255,255,255), x=400, y=240)
+                DisplayText(self.screen, "Touch the screen to continue", 40, (255,0,0), x=400, y=400)
 
             pygame.display.update()
 
