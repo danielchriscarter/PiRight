@@ -122,10 +122,10 @@ class PygameOutput(pygame.sprite.Sprite):
                 if(finished==True):
                     #self.quiz.questions[index].duration = time.time() - startTime
                     timeTaken = round(self.quiz.totalTime(),2)
-                    DisplayText(self.screen, "Your score is: " + str(self.quiz.questions_score),60, (255,0,0), x=self.width/2, y=self.height/4)
-                    DisplayText(self.screen, "Total Time: " + str(timeTaken) + "s", 60, (255,0,0), x=self.width/2, y=self.height/2)
+                    DisplayText(self.screen, "Your score is: " + str(self.quiz.questions_score),60, (255,0,0), x=self.width/2, y=25 + self.height/8)
+                    DisplayText(self.screen, "Total Time: " + str(timeTaken) + "s", 60, (255,0,0), x=self.width/2, y=25 + self.height/4)
                     if(name_entered==False):
-                        DisplayText(self.screen, "Please enter your name", 40, (255,0,0), x=self.width/2, y=3*self.height/4)
+                        DisplayText(self.screen, "Please enter your name", 40, (255,0,0), x=self.width/2, y= 25 + 3*self.height/8)
                         if((time.time()-startTime)>5):
                             vkeybd = virtualKeyboard.VirtualKeyboard(self.screen)
                             self.SaveScore(vkeybd.run(""), self.quiz.questions_score, timeTaken)
