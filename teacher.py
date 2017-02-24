@@ -22,12 +22,8 @@ class TeacherMode(pygame.sprite.Sprite):
         set_btn = (140, 250, 200,50)
         delete_btn = (140, 350, 200, 50)
         export_btn = (460, 150, 200,50)
-        exit_btn = (460,250,200,50)
-        clear_btn = (460, 350, 200,50)
-
-        yes_btn = (150, 300, 180, 80)
-        no_btn = (470, 300, 180, 80)
-        warning_message = ""
+        exit_btn = (460,350,200,50)
+        clear_btn = (460, 250, 200,50)
 
         while 1:
             self.screen.fill((0, 0, 0))
@@ -55,10 +51,10 @@ class TeacherMode(pygame.sprite.Sprite):
                     elif(DetectCollision(export_btn, pygame.mouse.get_pos())):
                         root = tkinter.Tk()
                         root.withdraw()
-                        name = re.escape(str(filedialog.asksaveasfilename(defaultextension=".csv",initialdir="/media")))
-                        os.system("cp ./data/scores.csv " + name)
+                        name = str(filedialog.asksaveasfilename(defaultextension=".csv",initialdir="/media"))
+                        os.system("cp ./data/scores.csv " + re.escape(name))
                     elif(DetectCollision(clear_btn, pygame.mouse.get_pos())):
-                        if(Warning("Are you sure you wish to erase all scores?")):
+                        if(self.warning("Are you sure you wish to erase all scores?")==True):
                             os.system("cp ./data/score_template.csv ./data/scores.csv")
                     elif(DetectCollision(set_btn, pygame.mouse.get_pos())):
                         root = tkinter.Tk()
@@ -68,9 +64,10 @@ class TeacherMode(pygame.sprite.Sprite):
                     elif(DetectCollision(delete_btn, pygame.mouse.get_pos())):
                         root = tkinter.Tk()
                         root.withdraw()
-                        name = re.escape(str(filedialog.askopenfilename(filetypes=[("CSV files","*.csv")],initialdir="./questions")))
-                        if(Warning("Are you sure you wish to delete " + str.split(name,"/")[-1] + "?")):
-                            os.system("rm " + name)
+                        name = str(filedialog.askopenfilename(filetypes=[("CSV files","*.csv")],initialdir="./questions"))
+                        if(name != ""):
+                            if(self.warning("Are you sure you wish to delete " + str.split(name,"/")[-1] + "?")==True):
+                                os.system("rm " + re.escape(name))
                         
 
                 
@@ -85,26 +82,29 @@ class TeacherMode(pygame.sprite.Sprite):
                     
             pygame.display.update()
 
-    def Warning(reset_type, message, name=""):
+    def warning(self, message):
+        yes_btn = (150, 300, 180, 80)
+        no_btn = (470, 300, 180, 80)
         while(True):
+            self.screen.fill((0, 0, 0))
             self.rect = pygame.draw.rect(self.screen, (255,0,0), yes_btn,0)
             self.rect = pygame.draw.rect(self.screen, (255,0,0), no_btn,0)
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     pygame.quit()
                     sys.exit()
-                
+
                 if event.type == MOUSEBUTTONDOWN and event.button == 1:
                     if(DetectCollision(yes_btn, pygame.mouse.get_pos())):
                         return True
                     elif(DetectCollision(no_btn, pygame.mouse.get_pos())):
                         return False
-                        
+
             if pygame.font:
                 DisplayText(self.screen, message, 40, (255,255,255), x=400, y=50)
                 DisplayText(self.screen, "Yes", 40, (255,255,255), x=240, y=340)
                 DisplayText(self.screen, "No", 40, (255,255,255), x=560, y=340)
-        pygame.display.update()
+            pygame.display.update()
 
 Window = TeacherMode()
 Window.Main()
