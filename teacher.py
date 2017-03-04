@@ -60,7 +60,7 @@ class TeacherMode(pygame.sprite.Sprite):
                         root = tkinter.Tk()
                         root.withdraw()
                         name = re.escape(str(filedialog.askopenfilename(filetypes=[("CSV files","*.csv")],initialdir="./questions")))
-                        os.system("cp " + name + " ./data/questions.csv")
+                        os.system("echo " + name + " > ./questionset")
                     elif(DetectCollision(delete_btn, pygame.mouse.get_pos())):
                         root = tkinter.Tk()
                         root.withdraw()

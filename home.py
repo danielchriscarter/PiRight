@@ -57,7 +57,9 @@ class HomeScreen(pygame.sprite.Sprite):
                         pygame.quit()
                         sys.exit()
                     elif(DetectCollision(btn_play, pygame.mouse.get_pos())):
-                        quiz = logic.Quiz("./data/questions.csv")
+                        questionSet = open("./questionset",'r')
+                        quiz = logic.Quiz(questionSet.read().strip())
+                        questionSet.close()
                         Window = pygame_output.PygameOutput(self.width, self.height, self.screen, quiz, [24,25,7,8])
                         Window.Main()
                 

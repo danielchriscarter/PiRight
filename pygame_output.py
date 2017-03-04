@@ -120,7 +120,6 @@ class PygameOutput(pygame.sprite.Sprite):
                 
             if pygame.font:
                 if(finished==True):
-                    #self.quiz.questions[index].duration = time.time() - startTime
                     timeTaken = round(self.quiz.totalTime(),2)
                     DisplayText(self.screen, "Your score is: " + str(self.quiz.questions_score),60, (255,0,0), x=self.width/2, y=25 + self.height/8)
                     DisplayText(self.screen, "Total Time: " + str(timeTaken) + "s", 60, (255,0,0), x=self.width/2, y=25 + self.height/4)
@@ -150,7 +149,7 @@ class PygameOutput(pygame.sprite.Sprite):
     def DisplayQuestion(self,index, colour):
         DisplayText(self.screen, self.quiz.questions[index].text,50, colour ,x=self.width/2, y= 75)
         DisplayText(self.screen, "A: " + self.quiz.questions[index].choices['a'], 35, (252,217,32),x=self.width/3, y=150)
-        DisplayText(self.screen, "B: " + self.quiz.questions[index].choices['b'], 35, (160,224,87),x=2*self.width/3, y=150)
+        DisplayText(self.screen, "B: " + self.quiz.questions[index].choices['b'], 35, (20,224,20),x=2*self.width/3, y=150)
         DisplayText(self.screen, "C: " + self.quiz.questions[index].choices['c'], 35, (229,59,81),x=self.width/3, y=200)
         DisplayText(self.screen, "D: " + self.quiz.questions[index].choices['d'], 35, (60,181,181),x=2*self.width/3, y=200)
 
@@ -166,5 +165,5 @@ class PygameOutput(pygame.sprite.Sprite):
 
     def SaveScore(self, name, score, time):
         fileOut = open("./data/scores.csv","a")
-        fileOut.write(name + "," + str(score) + "," + str(time) + "\n")
+        fileOut.write(name + "," + str(score) + "," + str(time) + "," + str.split(self.quiz.questions_path,"/")[-1] + "\n")
         fileOut.close()
