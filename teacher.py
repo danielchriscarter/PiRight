@@ -22,8 +22,9 @@ class TeacherMode(pygame.sprite.Sprite):
         set_btn = (140, 250, 200,50)
         delete_btn = (140, 350, 200, 50)
         export_btn = (460, 150, 200,50)
-        exit_btn = (460,350,200,50)
+        difficulty_btn = (460,350,200,50)
         clear_btn = (460, 250, 200,50)
+        exit_btn = (650,25,100,50)
 
         while 1:
             self.screen.fill((0, 0, 0))
@@ -34,6 +35,7 @@ class TeacherMode(pygame.sprite.Sprite):
             self.rect = pygame.draw.rect(self.screen, (255,0,0), exit_btn,0)
             self.rect = pygame.draw.rect(self.screen, (255,0,0), export_btn,0)
             self.rect = pygame.draw.rect(self.screen, (255,0,0), clear_btn,0)
+            self.rect = pygame.draw.rect(self.screen, (255,0,0), difficulty_btn,0)
 
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
@@ -68,6 +70,8 @@ class TeacherMode(pygame.sprite.Sprite):
                         if(name != ""):
                             if(self.warning("Are you sure you wish to delete " + str.split(name,"/")[-1] + "?")==True):
                                 os.system("rm " + re.escape(name))
+                    elif(DetectCollision(difficulty_btn, pygame.mouse.get_pos())):
+                        os.system("echo " + str(self.setSpeed()) + " > speed")
                         
 
                 
@@ -78,7 +82,8 @@ class TeacherMode(pygame.sprite.Sprite):
                 DisplayText(self.screen, "Delete question set", 30, (255,255,255), x=240, y=375)
                 DisplayText(self.screen, "Export scores", 30, (255,255,255), x=560, y=175)
                 DisplayText(self.screen, "Clear scores", 30, (255,255,255), x=560, y=275)
-                DisplayText(self.screen, "Exit", 30, (255,255,255), x=560, y=375)
+                DisplayText(self.screen, "Set difficulty", 30, (255,255,255), x=560, y=375)
+                DisplayText(self.screen, "Exit", 30, (255,255,255), x=700, y=50)
                     
             pygame.display.update()
 
@@ -105,6 +110,47 @@ class TeacherMode(pygame.sprite.Sprite):
                 DisplayText(self.screen, "Yes", 40, (255,255,255), x=240, y=340)
                 DisplayText(self.screen, "No", 40, (255,255,255), x=560, y=340)
             pygame.display.update()
+
+    def setSpeed(self):
+        one_btn = (100, 300, 100, 80)
+        two_btn = (220, 300, 100, 80)
+        three_btn = (340, 300, 100, 80)
+        four_btn = (460, 300, 100, 80)
+        five_btn = (580, 300, 100, 80)
+        while(True):
+            self.screen.fill((0, 0, 0))
+            self.rect = pygame.draw.rect(self.screen, (255,0,0), one_btn,0)
+            self.rect = pygame.draw.rect(self.screen, (255,0,0), two_btn,0)
+            self.rect = pygame.draw.rect(self.screen, (255,0,0), three_btn,0)
+            self.rect = pygame.draw.rect(self.screen, (255,0,0), four_btn,0)
+            self.rect = pygame.draw.rect(self.screen, (255,0,0), five_btn,0)
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    pygame.quit()
+                    sys.exit()
+
+                if event.type == MOUSEBUTTONDOWN and event.button == 1:
+                    if(DetectCollision(one_btn, pygame.mouse.get_pos())):
+                        return 1
+                    elif(DetectCollision(two_btn, pygame.mouse.get_pos())):
+                        return 2
+                    elif(DetectCollision(three_btn, pygame.mouse.get_pos())):
+                        return 3
+                    elif(DetectCollision(four_btn, pygame.mouse.get_pos())):
+                        return 4
+                    elif(DetectCollision(five_btn, pygame.mouse.get_pos())):
+                        return 5
+
+
+            if pygame.font:
+                DisplayText(self.screen, "Set difficulty (higher is faster)", 40, (255,255,255), x=400, y=50)
+                DisplayText(self.screen, "1", 40, (255,255,255), x=150, y=340)
+                DisplayText(self.screen, "2", 40, (255,255,255), x=270, y=340)
+                DisplayText(self.screen, "3", 40, (255,255,255), x=390, y=340)
+                DisplayText(self.screen, "4", 40, (255,255,255), x=510, y=340)
+                DisplayText(self.screen, "5", 40, (255,255,255), x=630, y=340)
+            pygame.display.update()
+
 
 Window = TeacherMode()
 Window.Main()

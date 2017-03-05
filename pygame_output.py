@@ -38,14 +38,33 @@ class PygameOutput(pygame.sprite.Sprite):
         road = pygame.transform.scale(road, (800, 50))
         carWidth = 70
         carHeight = 402
+        speed = 1
+        speed_file = open("./speed", 'r')
+        correct_progress_height = 0
+        incorrect_progress_height = 0
+        #scores = []
+        try:
+            speed = int(speed_file.read().strip())
+        except ValueError:
+            speed = 1
+        speed_file.close()
 
         while 1:
             self.screen.fill((255, 249, 216))
             self.screen.blit(board,(75,20))
             self.screen.blit(road, (0,400))
+            
+            if((300*self.quiz.questions_score)/len(self.quiz.questions)>correct_progress_height):
+                correct_progress_height += speed
+            if((300*index)/len(self.quiz.questions)>(incorrect_progress_height+correct_progress_height)):
+                incorrect_progress_height += speed
+
+            self.rect = pygame.draw.rect(self.screen, (0,0,255), (730, 50 , 50, 320), 0)
+            self.rect = pygame.draw.rect(self.screen, (255, 0, 0), (735, (360-incorrect_progress_height), 40, incorrect_progress_height), 0)
+            self.rect = pygame.draw.rect(self.screen, (0, 255, 0), (735, (360-incorrect_progress_height-correct_progress_height), 40, correct_progress_height), 0)
            
             if(answered==False):
-                buttonPressed = buttons.CheckPins(self.BUTTONS) #[0,0,0,0]
+                buttonPressed = buttons.CheckPins(self.BUTTONS) 
                 if(buttonPressed==self.BUTTONS[0]):
                     self.quiz.questions[index].answer = "a"
                     answered = True
@@ -60,8 +79,8 @@ class PygameOutput(pygame.sprite.Sprite):
                     answered = True
                 else:
                     self.screen.blit(car, (carWidth, carHeight))
-                    carWidth+=1
-                    if carWidth == 730:
+                    carWidth+=speed
+                    if carWidth >= 730:
                         answered = True
                         self.quiz.questions[index].duration = time.time() - startTime
                 if(answered==True):
@@ -80,7 +99,7 @@ class PygameOutput(pygame.sprite.Sprite):
                 elif event.type == MOUSEBUTTONUP:
                     pygame.mouse.set_pos(self.width,self.height)
                 
-                #This is all test code - to be removed in final version
+                #Test code using keyboard
                 if event.type == KEYDOWN:
                     if event.key == K_q and pygame.key.get_mods() and KMOD_CTRL:
                         buttons.Cleanup()
@@ -110,10 +129,11 @@ class PygameOutput(pygame.sprite.Sprite):
                     ans_waiting = True
                 elif((time.time()-startTime)>2):
                     startTime = time.time()
-                    if(index==len(self.quiz.questions)-1):
+                    #scores.append(self.quiz.questions[index].checkanswer())
+                    index += 1
+                    if(index==len(self.quiz.questions)):
                         finished = True
                     else:
-                        index += 1
                         colour = (0,0,0) #self.RandomiseColour()
                         answered = False
                         ans_waiting = False
