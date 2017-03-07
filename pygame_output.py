@@ -26,7 +26,7 @@ class PygameOutput(pygame.sprite.Sprite):
         finished = False
         ans_waiting = False
         name_entered = False
-        index = 0
+        index = 1
         startTime = time.time()
         colour = (0,0,0) #self.RandomiseColour()
         back_btn = (300,300,200,120)
@@ -36,6 +36,8 @@ class PygameOutput(pygame.sprite.Sprite):
         board = pygame.transform.scale(board, (650, 350))
         road = pygame.image.load('images/passing-zone-md.png')
         road = pygame.transform.scale(road, (800, 50))
+	congrats = pygame.image.load('images/congrat.png')
+	congrats = pygame.transform.scale(congrats, (300, 300))
         carWidth = 70
         carHeight = 402
         speed = 1
@@ -48,6 +50,8 @@ class PygameOutput(pygame.sprite.Sprite):
         except ValueError:
             speed = 1
         speed_file.close()
+
+        #with open('
 
         while 1:
             self.screen.fill((255, 249, 216))
@@ -140,6 +144,12 @@ class PygameOutput(pygame.sprite.Sprite):
                 
             if pygame.font:
                 if(finished==True):
+<<<<<<< Updated upstream
+=======
+		    self.screen.blit(congrats, (250,90))
+		    DisplayText(self.screen, "FINISHED!",60, (255,0,0), x=self.width/2, y=25 + self.height/8)
+		    #self.quiz.questions[index].duration = time.time() - startTime
+>>>>>>> Stashed changes
                     timeTaken = round(self.quiz.totalTime(),2)
                     DisplayText(self.screen, "Your score is: " + str(self.quiz.questions_score),60, (255,0,0), x=self.width/2, y=25 + self.height/8)
                     DisplayText(self.screen, "Total Time: " + str(timeTaken) + "s", 60, (255,0,0), x=self.width/2, y=25 + self.height/4)
@@ -156,20 +166,40 @@ class PygameOutput(pygame.sprite.Sprite):
                 #If user hasn't finished
                 elif(answered==False):
                     self.DisplayQuestion(index, colour)
+                elif(PictureQuestion==True):
+                    DisplayPictureQuestion(index)
                 else:
                     if self.quiz.questions[index].checkAnswer():
-                        DisplayText(self.screen, "Correct!", 60, (0,255,0), x=self.width/2, y=self.height/4)
+                        #DisplayText(self.screen, "Correct!", 60, (0,255,0), x=self.width/2, y=self.height/4)
+                        tick = pygame.image.load('images/tick.png')
+                        tick = pygame.transform.scale(tick, (300, 300))
+                        self.screen.blit(tick,(250,90))
                     else:
-                        DisplayText(self.screen, "Incorrect", 50, (255,0,0), x=self.width/2, y=self.height/4)
-                        DisplayText(self.screen, "The Correct Answer Was " + self.quiz.questions[index].printCorrectAnswer(),  30, (255,0,0), x=self.width/2, y=self.height/4+30)
+                        #DisplayText(self.screen, "Incorrect", 50, (255,0,0), x=self.width/2, y=self.height/4)
+                        #DisplayText(self.screen, "The Correct Answer Was " + self.quiz.questions[index].printCorrectAnswer(),  30, (255,0,0), x=self.width/2, y=self.height/4+30)
+                        cross = pygame.image.load('images/cross.png')
+                        cross = pygame.transform.scale(cross, (300, 300))
+                        self.screen.blit(cross,(250,90))
 
                     
             pygame.display.update()
+
+    
+        
 
     def DisplayQuestion(self,index, colour):
         DisplayText(self.screen, self.quiz.questions[index].text,50, colour ,x=self.width/2, y= 75)
         DisplayText(self.screen, "A: " + self.quiz.questions[index].choices['a'], 35, (252,217,32),x=self.width/3, y=150)
         DisplayText(self.screen, "B: " + self.quiz.questions[index].choices['b'], 35, (20,224,20),x=2*self.width/3, y=150)
+        DisplayText(self.screen, "C: " + self.quiz.questions[index].choices['c'], 35, (229,59,81),x=self.width/3, y=200)
+        DisplayText(self.screen, "D: " + self.quiz.questions[index].choices['d'], 35, (60,181,181),x=2*self.width/3, y=200)
+
+    def DisplayPictureQuestion(self,index):
+        picQuestion = pygame.image.load('images/questionImages/',self.quiz.questions[index].text) 
+        picQuestion = pygame.transform.scale(picQuestion, (300, 300))
+        self.screen.blit(picQuestion,(250,90))
+        DisplayText(self.screen, "A: " + self.quiz.questions[index].choices['a'], 35, (252,217,32),x=self.width/3, y=150)
+        DisplayText(self.screen, "B: " + self.quiz.questions[index].choices['b'], 35, (160,224,87),x=2*self.width/3, y=150)
         DisplayText(self.screen, "C: " + self.quiz.questions[index].choices['c'], 35, (229,59,81),x=self.width/3, y=200)
         DisplayText(self.screen, "D: " + self.quiz.questions[index].choices['d'], 35, (60,181,181),x=2*self.width/3, y=200)
 
