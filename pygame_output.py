@@ -19,25 +19,25 @@ class PygameOutput(pygame.sprite.Sprite):
         self.BUTTONS = buttonSet
         buttons.Setup(self.BUTTONS)
         self.screen = screen
-       
-        
+
+
     def Main(self):
         answered = False
         finished = False
         ans_waiting = False
         name_entered = False
-        index = 1
+        index = 0
         startTime = time.time()
         colour = (0,0,0) #self.RandomiseColour()
-        back_btn = (300,300,200,120)
+        back_btn = (300,360,200,60)
         car = pygame.image.load('images/light-blue-car-top-view-th.png')
         carSprite = pygame.transform.scale(car, (40, 20))
         board = pygame.image.load('images/bigBoard.png')
         board = pygame.transform.scale(board, (650, 350))
         road = pygame.image.load('images/passing-zone-md.png')
         road = pygame.transform.scale(road, (800, 50))
-	congrats = pygame.image.load('images/congrat.png')
-	congrats = pygame.transform.scale(congrats, (300, 300))
+        congrats = pygame.image.load('images/congrat.png')
+        congrats = pygame.transform.scale(congrats, (300, 300))
         carWidth = 70
         carHeight = 402
         speed = 1
@@ -144,30 +144,32 @@ class PygameOutput(pygame.sprite.Sprite):
                 
             if pygame.font:
                 if(finished==True):
-<<<<<<< Updated upstream
-=======
-		    self.screen.blit(congrats, (250,90))
-		    DisplayText(self.screen, "FINISHED!",60, (255,0,0), x=self.width/2, y=25 + self.height/8)
-		    #self.quiz.questions[index].duration = time.time() - startTime
->>>>>>> Stashed changes
-                    timeTaken = round(self.quiz.totalTime(),2)
-                    DisplayText(self.screen, "Your score is: " + str(self.quiz.questions_score),60, (255,0,0), x=self.width/2, y=25 + self.height/8)
-                    DisplayText(self.screen, "Total Time: " + str(timeTaken) + "s", 60, (255,0,0), x=self.width/2, y=25 + self.height/4)
-                    if(name_entered==False):
-                        DisplayText(self.screen, "Please enter your name", 40, (255,0,0), x=self.width/2, y= 25 + 3*self.height/8)
-                        if((time.time()-startTime)>5):
+                    timeTaken = int(self.quiz.totalTime())
+
+                    if(time.time()-startTime>10):
+                        if(name_entered==False):
                             vkeybd = virtualKeyboard.VirtualKeyboard(self.screen)
                             self.SaveScore(vkeybd.run(""), self.quiz.questions_score, timeTaken)
                             name_entered = True
+                        else:
+                            self.screen.blit(congrats, (250,90))
+                            DisplayText(self.screen, "FINISHED!",60, (255,0,0), x=self.width/2, y=25 + self.height/8)
+                            self.rect = pygame.draw.rect(self.screen, (160,224,87), back_btn, 0)
+                            DisplayText(self.screen, "Main Menu", 40, (255,255,255), x=400, y=390)
+                    elif(time.time()-startTime>5):
+                        DisplayText(self.screen, "Your score is: " + str(self.quiz.questions_score),60, (255,0,0), x=self.width/2, y=25 + self.height/8)
+                        DisplayText(self.screen, "Total Time: " + str(timeTaken) + " seconds", 60, (255,0,0), x=self.width/2, y=25 + self.height/4)
+                        DisplayText(self.screen, "Please enter your name", 40, (255,0,0), x=self.width/2, y= 25 + 3*self.height/8)
                     else:
-                        self.rect = pygame.draw.rect(self.screen, (160,224,87), back_btn, 0)
-                        DisplayText(self.screen, "Main Menu", 40, (255,255,255), x=400, y=360)
+                        self.screen.blit(congrats, (250,90))
+                        DisplayText(self.screen, "FINISHED!",60, (255,0,0), x=self.width/2, y=25 + self.height/8)
 
                 #If user hasn't finished
                 elif(answered==False):
-                    self.DisplayQuestion(index, colour)
-                elif(PictureQuestion==True):
-                    DisplayPictureQuestion(index)
+                    if("png" in self.quiz.questions[index].text):
+                        self.DisplayPictureQuestion(index)
+                    else:
+                        self.DisplayQuestion(index, colour)
                 else:
                     if self.quiz.questions[index].checkAnswer():
                         #DisplayText(self.screen, "Correct!", 60, (0,255,0), x=self.width/2, y=self.height/4)
@@ -184,8 +186,7 @@ class PygameOutput(pygame.sprite.Sprite):
                     
             pygame.display.update()
 
-    
-        
+
 
     def DisplayQuestion(self,index, colour):
         DisplayText(self.screen, self.quiz.questions[index].text,50, colour ,x=self.width/2, y= 75)
@@ -195,9 +196,9 @@ class PygameOutput(pygame.sprite.Sprite):
         DisplayText(self.screen, "D: " + self.quiz.questions[index].choices['d'], 35, (60,181,181),x=2*self.width/3, y=200)
 
     def DisplayPictureQuestion(self,index):
-        picQuestion = pygame.image.load('images/questionImages/',self.quiz.questions[index].text) 
-        picQuestion = pygame.transform.scale(picQuestion, (300, 300))
-        self.screen.blit(picQuestion,(250,90))
+        picQuestion = pygame.image.load('images/questionImages/' + self.quiz.questions[index].text) 
+        picQuestion = pygame.transform.scale(picQuestion, (100, 100))
+        self.screen.blit(picQuestion,(350,90))
         DisplayText(self.screen, "A: " + self.quiz.questions[index].choices['a'], 35, (252,217,32),x=self.width/3, y=150)
         DisplayText(self.screen, "B: " + self.quiz.questions[index].choices['b'], 35, (160,224,87),x=2*self.width/3, y=150)
         DisplayText(self.screen, "C: " + self.quiz.questions[index].choices['c'], 35, (229,59,81),x=self.width/3, y=200)
