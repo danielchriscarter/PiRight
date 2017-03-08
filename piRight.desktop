@@ -1,0 +1,5 @@
+[Desktop Entry]
+Type=Application
+Name=PiRight
+Exec=python3 home.py
+Path=/home/pi/2016-17/
