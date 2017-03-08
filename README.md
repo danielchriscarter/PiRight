@@ -11,6 +11,7 @@ It is intended as an entry to the [PA Pi Competition](http://www.paconsulting.co
 * usbmount (handles importing of data from USB drives) - `apt-get install usbmount`
 
 Dependances can be installed using an included script, as shown below
+
 This has only been tested on Raspbian, but may also work on other distributions
 
 ## To set up
@@ -23,6 +24,7 @@ This has only been tested on Raspbian, but may also work on other distributions
  `python3 home.py`
 
 ## Used Libraries
-* Pygame(LGPL)
+* Pygame (LGPL)
 * Raspberry Pi GPIO module (MIT licence)
 * [VKeyboard](https://github.com/wbphelps/VKeyboard) (GPL)
+* Tkinter (BSD licence)

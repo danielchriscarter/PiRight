@@ -46,14 +46,15 @@ class TeacherMode(pygame.sprite.Sprite):
                     if(DetectCollision(import_btn, pygame.mouse.get_pos())):
                         root = tkinter.Tk()
                         root.withdraw()
-                        name = re.escape(str(filedialog.askopenfilename(filetypes=[("CSV files","*.csv")],initialdir="/media")))
+                        name = re.escape(str(filedialog.askopenfilename(filetypes=[("CSV files","*.csv")],initialdir="/media/usb")))
                         os.system("cp " + name + " ./questions/")
                     elif(DetectCollision(exit_btn, pygame.mouse.get_pos())):
+                        os.system("umount /media/usb")
                         return
                     elif(DetectCollision(export_btn, pygame.mouse.get_pos())):
                         root = tkinter.Tk()
                         root.withdraw()
-                        name = str(filedialog.asksaveasfilename(defaultextension=".csv",initialdir="/media"))
+                        name = str(filedialog.asksaveasfilename(defaultextension=".csv",initialdir="/media/usb"))
                         os.system("cp ./data/scores.csv " + re.escape(name))
                     elif(DetectCollision(clear_btn, pygame.mouse.get_pos())):
                         if(self.warning("Are you sure you wish to erase all scores?")==True):

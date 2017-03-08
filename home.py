@@ -54,6 +54,8 @@ class HomeScreen(pygame.sprite.Sprite):
                         subprocess.call(["gksudo", "python3", "teacher.py"])
                         self.screen = pygame.display.set_mode((self.width, self.height), pygame.FULLSCREEN)
                     elif(DetectCollision(btn_exit, pygame.mouse.get_pos())):
+                        #self.screen = pygame.display.set_mode((self.width, self.height), pygame.NOFRAME)
+                        #subprocess.call(["gksudo", "sh", "./shutdown.sh"])
                         pygame.quit()
                         sys.exit()
                     elif(DetectCollision(btn_play, pygame.mouse.get_pos())):
