@@ -51,8 +51,6 @@ class PygameOutput(pygame.sprite.Sprite):
             speed = 1
         speed_file.close()
 
-        #with open('
-
         while 1:
             self.screen.fill((255, 249, 216))
             self.screen.blit(board,(75,20))
@@ -172,12 +170,10 @@ class PygameOutput(pygame.sprite.Sprite):
                         self.DisplayQuestion(index, colour)
                 else:
                     if self.quiz.questions[index].checkAnswer():
-                        #DisplayText(self.screen, "Correct!", 60, (0,255,0), x=self.width/2, y=self.height/4)
                         tick = pygame.image.load('images/tick.png')
                         tick = pygame.transform.scale(tick, (200, 180))
                         self.screen.blit(tick,(300,60))
                     else:
-                        #DisplayText(self.screen, "Incorrect", 50, (255,0,0), x=self.width/2, y=self.height/4)
                         #DisplayText(self.screen, "The Correct Answer Was " + self.quiz.questions[index].printCorrectAnswer(),  30, (255,0,0), x=self.width/2, y=self.height/4+30)
                         cross = pygame.image.load('images/cross.png')
                         cross = pygame.transform.scale(cross, (200, 180))
