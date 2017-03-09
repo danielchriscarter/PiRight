@@ -56,8 +56,9 @@ class HomeScreen(pygame.sprite.Sprite):
                     elif(DetectCollision(btn_exit, pygame.mouse.get_pos())):
                         self.screen = pygame.display.set_mode((self.width, self.height), pygame.NOFRAME)
                         subprocess.call(["gksudo", "sh", "./shutdown.sh"])
-                        pygame.quit()
-                        sys.exit()
+                        self.screen = pygame.display.set_mode((self.width, self.height), pygame.FULLSCREEN)
+                        #pygame.quit()
+                        #sys.exit()
                     elif(DetectCollision(btn_play, pygame.mouse.get_pos())):
                         questionSet = open("./questionset",'r')
                         quiz = logic.Quiz(questionSet.read().strip())
@@ -70,7 +71,8 @@ class HomeScreen(pygame.sprite.Sprite):
 
             if pygame.font:
                 DisplayText(self.screen, "PLAY!", 64, (255,255,255), x=400, y=240)
-                DisplayText(self.screen, "Touch the screen to continue", 40, (255,0,0), x=400, y=400)
+                DisplayText(self.screen, "Press play to continue", 40, (255,0,0), x=400, y=400)
+                DisplayText(self.screen, "Beat the car to the end!", 40, (255,0,0), x=400, y=450)
 
             pygame.display.update()
 

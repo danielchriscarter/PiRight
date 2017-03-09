@@ -1,8 +1,8 @@
 import pygame
 
-def DisplayText(screen, text, size, colour, x=0, y=0):
+def DisplayText(screen, text, size, colour, background=None, x=0, y=0):
     font = pygame.font.Font(None, size)
-    text = font.render(text, 1, (colour))
+    text = font.render(text, 1, (colour), background)
     textpos = text.get_rect(centerx=x, centery=y)
     screen.blit(text, textpos)
 

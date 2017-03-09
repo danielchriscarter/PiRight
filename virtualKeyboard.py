@@ -84,7 +84,7 @@ class VirtualKeyboard():
         self.textW = self.keyW*12 # leave room for escape key 
         self.textH = self.keyH*2-6
 
-        self.caps = False
+        self.caps = True
         self.keys = []
 #        self.textbox = pygame.Surface((self.rect.width,self.keyH*2))
         self.addkeys() # add all the keys
