@@ -17,4 +17,6 @@ apt-get install python3-dev python3-numpy libsdl-dev libsdl-image1.2-dev libsdl-
 python3 setup.py build
 python3 setup.py install
 
+cd ..
+
 echo @xdg-open `pwd`/piRight.desktop >> ~/.config/lxsession/LXDE-pi/autostart
