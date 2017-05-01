@@ -113,11 +113,12 @@ class TeacherMode(pygame.sprite.Sprite):
             pygame.display.update()
 
     def setSpeed(self):
-        one_btn = (100, 300, 100, 80)
-        two_btn = (220, 300, 100, 80)
-        three_btn = (340, 300, 100, 80)
-        four_btn = (460, 300, 100, 80)
-        five_btn = (580, 300, 100, 80)
+        one_btn = (100, 300, 80, 80)
+        two_btn = (200, 300, 80, 80)
+        three_btn = (300, 300, 80, 80)
+        four_btn = (400, 300, 80, 80)
+        five_btn = (500, 300, 80, 80)
+        six_btn = (600, 300, 80, 80)
         while(True):
             self.screen.fill((0, 0, 0))
             self.rect = pygame.draw.rect(self.screen, (255,0,0), one_btn,0)
@@ -125,6 +126,7 @@ class TeacherMode(pygame.sprite.Sprite):
             self.rect = pygame.draw.rect(self.screen, (255,0,0), three_btn,0)
             self.rect = pygame.draw.rect(self.screen, (255,0,0), four_btn,0)
             self.rect = pygame.draw.rect(self.screen, (255,0,0), five_btn,0)
+            self.rect = pygame.draw.rect(self.screen, (255,0,0), six_btn,0)
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     pygame.quit()
@@ -134,22 +136,25 @@ class TeacherMode(pygame.sprite.Sprite):
                     if(DetectCollision(one_btn, pygame.mouse.get_pos())):
                         return 1
                     elif(DetectCollision(two_btn, pygame.mouse.get_pos())):
-                        return 2
+                        return 1.5
                     elif(DetectCollision(three_btn, pygame.mouse.get_pos())):
-                        return 3
+                        return 2
                     elif(DetectCollision(four_btn, pygame.mouse.get_pos())):
-                        return 4
+                        return 3
                     elif(DetectCollision(five_btn, pygame.mouse.get_pos())):
-                        return 5
+                        return 4
+                    elif(DetectCollision(six_btn, pygame.mouse.get_pos())):
+                        return 8
 
 
             if pygame.font:
-                DisplayText(self.screen, "Set difficulty (higher is faster)", 40, (255,255,255), x=400, y=50)
-                DisplayText(self.screen, "1", 40, (255,255,255), x=150, y=340)
-                DisplayText(self.screen, "2", 40, (255,255,255), x=270, y=340)
-                DisplayText(self.screen, "3", 40, (255,255,255), x=390, y=340)
-                DisplayText(self.screen, "4", 40, (255,255,255), x=510, y=340)
-                DisplayText(self.screen, "5", 40, (255,255,255), x=630, y=340)
+                DisplayText(self.screen, "Set time per question", 40, (255,255,255), x=400, y=50)
+                DisplayText(self.screen, "45s", 40, (255,255,255), x=140, y=340)
+                DisplayText(self.screen, "30s", 40, (255,255,255), x=240, y=340)
+                DisplayText(self.screen, "20s", 40, (255,255,255), x=340, y=340)
+                DisplayText(self.screen, "15s", 40, (255,255,255), x=440, y=340)
+                DisplayText(self.screen, "10s", 40, (255,255,255), x=540, y=340)
+                DisplayText(self.screen, "5s", 40, (255,255,255), x=640, y=340)
             pygame.display.update()
 
 
