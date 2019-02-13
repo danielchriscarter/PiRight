@@ -1,8 +1,10 @@
 # PiRight
 
-PiRight is a project to build a Raspberry-Pi based game to assist those with Attention-Defecit Disorders
+PiRight consisted of a project to build a Raspberry-Pi based game to assist those with Attention-Defecit Disorders
 
-It is intended as an entry to the [PA Pi Competition](http://www.paconsulting.com/events/raspberry-pi-competition), as well as a learning experience with the use of Pygame for a GUI
+This was completed in a team of 4 over the 2016-17 academic year, and the final product was selected as the winner of the 2017 [PA Pi Competition](http://www.paconsulting.com/events/raspberry-pi-competition)
+
+In addition, it served as a learning experience with the use of Pygame for a GUI
 
 ## Requirements
 * Python3 - `apt-get install python3`
